@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TeLoLeo — Propuesta Voz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --studio: #070C0B;
+    --ink: #F4FFF8;
+    --muted: #93B0A6;
+    --phone: #081412;
+    --card: #122420;
+    --line: #1D3330;
+    --accent: #D6FF4A;
+    --ink-2: #102108;
+    --coral: #FF7D5C;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--studio); color: var(--ink); font-family: Outfit, "Segoe UI", sans-serif; }
+  button, input, select, textarea { font: inherit; }
+  .top { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; padding: 28px 28px 8px; }
+  .eyebrow { margin: 0 0 6px; letter-spacing: .16em; text-transform: uppercase; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .top h1 { margin: 0; font-size: 42px; font-weight: 650; letter-spacing: -.04em; }
+  .lede { max-width: 42rem; margin: 8px 0 0; line-height: 1.45; color: #D5E7DF; }
+  .siblings { display: flex; gap: 8px; flex-wrap: wrap; }
+  .siblings a { color: var(--ink); text-decoration: none; border: 1px solid #23403A; border-radius: 999px; padding: 8px 12px; }
+  .siblings a[aria-current="page"] { background: var(--accent); color: var(--ink-2); border-color: transparent; }
+  .stage { display: grid; grid-template-columns: 220px 410px minmax(260px, 1fr); gap: 28px; align-items: start; padding: 12px 28px 48px; }
+  .rail, .device { position: sticky; top: 12px; }
+  .rail { max-height: calc(100vh - 24px); overflow: auto; }
+  .rail h3 { margin: 16px 0 6px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .rail button { display: block; width: 100%; text-align: left; border: 0; background: transparent; color: var(--ink); border-radius: 10px; padding: 7px 10px; cursor: pointer; }
+  .rail button.on { background: #17302B; font-weight: 700; }
+  .device { width: 390px; height: 800px; background: #000; border-radius: 46px; padding: 10px; box-shadow: 0 30px 80px rgba(0, 0, 0, .45); }
+  .screen { height: 100%; background: var(--phone); color: var(--ink); border-radius: 36px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+  .statusbar { flex: none; display: flex; justify-content: space-between; padding: 12px 22px 0; font-size: 12px; font-weight: 700; }
+  .viewport { flex: 1; min-height: 0; overflow: auto; padding: 8px 18px 108px; }
+  .screen button, .screen input, .screen select, .screen textarea { font: inherit; color: inherit; }
+  .idline { display: flex; justify-content: space-between; align-items: center; }
+  .pill, .texty, .back { border: 0; background: transparent; color: var(--accent); font-weight: 700; cursor: pointer; }
+  .pill { border: 1px solid #34564C; border-radius: 999px; padding: 6px 10px; }
+  .hero h2 { font-size: 52px; line-height: .92; letter-spacing: -.045em; font-weight: 650; margin: 10px 0 6px; }
+  .statusline { font-size: 18px; margin: 0 0 8px; }
+  .fine { color: var(--muted); line-height: 1.4; }
+  .quote { background: var(--card); border-radius: 28px; padding: 14px 16px; margin: 10px 0; }
+  .quote span, .kicker { color: var(--muted); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
+  .quote p { font-size: 24px; line-height: 1.15; margin: 8px 0 0; font-weight: 600; }
+  .wave { display: flex; align-items: flex-end; gap: 4px; height: 22px; margin-top: 8px; }
+  .wave i { width: 4px; border-radius: 4px; background: var(--accent); display: block; }
+  .wave i:nth-child(1) { height: 8px; } .wave i:nth-child(2) { height: 16px; }
+  .wave i:nth-child(3) { height: 11px; } .wave i:nth-child(4) { height: 20px; }
+  .wave i:nth-child(5) { height: 13px; } .wave i:nth-child(6) { height: 18px; }
+  .wave i:nth-child(7) { height: 7px; }
+  .wave.on i { animation: hop 1s ease-in-out infinite; }
+  .wave i:nth-child(2) { animation-delay: .1s; } .wave i:nth-child(3) { animation-delay: .2s; }
+  .wave i:nth-child(4) { animation-delay: .05s; } .wave i:nth-child(5) { animation-delay: .18s; }
+  .wave i:nth-child(6) { animation-delay: .28s; } .wave i:nth-child(7) { animation-delay: .12s; }
+  @keyframes hop { 50% { height: 26px; } }
+  .btn { width: 100%; border: 0; background: var(--accent); color: var(--ink-2); min-height: 56px; border-radius: 18px; font-size: 18px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+  .btn.ghost { background: transparent; color: var(--accent); box-shadow: inset 0 0 0 1.5px #34564C; }
+  .btn.warn { background: var(--coral); color: #2A0C06; }
+  .btn:disabled { opacity: .4; }
+  .set { display: flex; gap: 12px; align-items: center; margin-top: 18px; }
+  .set div { flex: 1; }
+  .set strong { font-size: 18px; }
+  .switch { width: 58px; height: 34px; border-radius: 99px; background: #243833; position: relative; flex: none; }
+  .switch i { position: absolute; top: 3px; left: 3px; width: 28px; height: 28px; border-radius: 50%; background: #D7E4DE; display: block; transition: transform .18s; }
+  .switch.on { background: var(--accent); }
+  .switch.on i { transform: translateX(24px); background: var(--ink-2); }
+  .linkrow { width: 100%; margin-top: 10px; text-align: left; background: var(--card); color: var(--ink); border: 0; border-radius: 18px; padding: 16px; display: flex; justify-content: space-between; cursor: pointer; font-weight: 650; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chips span, .chip { background: #203832; color: var(--accent); border-radius: 999px; padding: 6px 10px; font-weight: 700; }
+  .chip { border: 0; cursor: pointer; }
+  .search { display: flex; gap: 8px; background: var(--card); border-radius: 18px; padding: 6px 8px 6px 16px; margin: 12px 0; }
+  .search input { flex: 1; border: 0; background: transparent; color: var(--ink); min-height: 48px; outline: none; font-size: 18px; }
+  .search button { border: 0; background: transparent; color: var(--accent); font-weight: 700; cursor: pointer; }
+  .viewport h3 { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; }
+  .app { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .app-hit { flex: 1; min-height: 72px; display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 20px; padding: 10px 12px; cursor: pointer; }
+  .av { width: 46px; height: 46px; border-radius: 16px; display: grid; place-items: center; color: #fff; font-weight: 700; font-style: normal; flex: none; font-size: 18px; }
+  .meta { flex: 1; min-width: 0; }
+  .meta strong { display: block; font-size: 18px; }
+  .meta small { color: var(--muted); }
+  .tpl { border: 0; background: transparent; color: var(--accent); font-weight: 700; cursor: pointer; }
+  .skel { height: 72px; border-radius: 20px; margin-bottom: 8px; background: linear-gradient(90deg, #122420, #1A302B, #122420); background-size: 200% 100%; animation: sheen 1.2s infinite; }
+  @keyframes sheen { to { background-position: -200% 0; } }
+  .block { background: var(--card); border-radius: 24px; padding: 16px; margin: 10px 0; }
+  .block h3 { margin: 0 0 8px; letter-spacing: 0; text-transform: none; font-size: 20px; color: var(--ink); }
+  .opt { width: 100%; text-align: left; border: 0; background: var(--card); color: inherit; border-radius: 24px; padding: 16px; margin: 10px 0; cursor: pointer; }
+  .opt .row, .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .lock { color: var(--accent); font-weight: 700; }
+  .times, .add, .actions { display: flex; gap: 8px; }
+  .times { margin-top: 12px; }
+  .time { flex: 1; display: flex; flex-direction: column; gap: 4px; color: var(--muted); font-size: 13px; }
+  select, textarea, .add input { width: 100%; border: 0; background: #0C1C19; color: var(--ink); border-radius: 14px; padding: 12px; }
+  textarea { min-height: 100px; }
+  input[type="range"] { width: 100%; accent-color: var(--accent); }
+  .add { margin-top: 8px; }
+  .add button { border: 0; background: var(--accent); color: var(--ink-2); border-radius: 14px; padding: 0 14px; font-weight: 700; cursor: pointer; }
+  .tabbar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; display: flex; gap: 6px; height: 78px; background: var(--phone); border-radius: 0 0 36px 36px; padding: 8px 16px 16px; box-shadow: 0 -18px 16px var(--phone); }
+  .tabbar button { flex: 1; border: 0; background: transparent; color: var(--muted); border-radius: 16px; min-height: 48px; font-weight: 700; cursor: pointer; }
+  .tabbar button.on { background: var(--accent); color: var(--ink-2); }
+  .overlay { position: absolute; inset: 0; z-index: 20; }
+  .shade, .handle { display: none; }
+  .panel { position: absolute; inset: 0; overflow: auto; background: var(--phone); padding: 22px 20px 32px; }
+  .panel h2 { font-size: 36px; line-height: 1; letter-spacing: -.04em; margin: 8px 0 16px; }
+  .steps { list-style: none; padding: 0; margin: 0; }
+  .steps li { display: grid; grid-template-columns: 32px 1fr; gap: 10px; margin-bottom: 14px; font-size: 17px; line-height: 1.35; }
+  .steps b { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--ink-2); display: grid; place-items: center; }
+  .actions { flex-direction: column; margin-top: 16px; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .compare article { background: var(--card); border-radius: 20px; padding: 12px; }
+  .compare .procol { background: var(--accent); color: var(--ink-2); }
+  .compare h3 { margin: 0 0 8px; font-size: 16px; letter-spacing: 0; text-transform: none; color: inherit; }
+  .compare li { margin: 6px 0; }
+  .back { padding: 0; }
+  .doc h2 { font-size: 40px; line-height: .95; margin: 8px 0; }
+  .doc article { margin: 14px 0; }
+  .doc h3 { font-size: 20px; letter-spacing: 0; text-transform: none; color: var(--ink); margin: 0 0 4px; }
+  .toast { position: absolute; z-index: 40; left: 16px; right: 16px; top: 46px; background: var(--accent); color: var(--ink-2); border-radius: 14px; padding: 12px 14px; font-weight: 650; }
+  aside ul { margin: 0 0 18px; padding-left: 18px; line-height: 1.45; color: #D5E7DF; }
+  .brands { display: flex; flex-wrap: wrap; gap: 6px; }
+  .brands button { border-radius: 999px; border: 1px solid #23403A; background: transparent; color: var(--ink); padding: 6px 10px; cursor: pointer; }
+  .brands button.on { background: var(--accent); color: var(--ink-2); border-color: transparent; }
+  #now { font-weight: 700; }
+  @media (max-width: 1100px) {
+    .stage { grid-template-columns: 1fr; }
+    .rail, .device { position: relative; top: 0; }
+    .device { margin: 0 auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <p class="eyebrow">Propuesta C · maqueta navegable</p>
+    <h1>Voz</h1>
+    <p class="lede">La app se oye, así que la pantalla muestra la frase antes de pedir el permiso. Tipo grande, un botón principal y la divulgación a pantalla completa, en cuatro frases.</p>
+  </div>
+  <nav class="siblings">
+    <a href="index.html">Índice</a>
+    <a href="propuesta-tablero.html">Tablero</a>
+    <a href="propuesta-lista.html">Lista</a>
+    <a href="propuesta-voz.html" aria-current="page">Voz</a>
+  </nav>
+</header>
+<div class="stage">
+  <nav class="rail" id="rail" aria-label="Vistas"></nav>
+  <div class="device"><div class="screen" id="screen"></div></div>
+  <aside>
+    <p class="eyebrow">Qué arregla</p>
+    <ul>
+      <li>Hoy no se ve cómo va a sonar. Aquí la frase de ejemplo es el contenido.</li>
+      <li>Pensada para mirar de reojo: un estado, un botón, controles grandes.</li>
+      <li>La divulgación deja de ser un diálogo apretado.</li>
+      <li>Pro se compara con la versión gratis, en vez de un párrafo.</li>
+      <li>El ajuste de Android se reconoce como otra pantalla: fondo claro del sistema.</li>
+      <li>Callar sigue siendo 2 minutos, dicho en el botón.</li>
+    </ul>
+    <p class="eyebrow">Guía de batería</p>
+    <div class="brands" id="brands"></div>
+    <p class="fine">La marca la detecta el teléfono. US$ 4,99 es un precio de ejemplo.</p>
+    <p id="now"></p>
+  </aside>
+</div>
+<script src="shared.js"></script>
+<script>
+TeLoLeo.boot({
+  batteryView: "home",
+  groups: TeLoLeo.groups(function (item) {
+    if (item.patch.view === "lectura") item.patch.view = "ajustes";
+    return item;
+  }),
+  renderPage: function (v) {
+    var s = v.state;
+    if (s.view === "sistema") return v.systemPage();
+    if (s.view === "privacy") return privacy(v);
+    if (s.view === "pro") return pro(v);
+    if (s.view === "ajustes" || s.view === "lectura") return ajustes(v);
+    if (s.view === "apps") return apps(v);
+    return home(v);
+  }
+});
+
+function tabs(id) {
+  function item(view, label) {
+    return '<button type="button" data-act="goto" data-id="' + view + '"' + (id === view ? ' class="on"' : "") + ">" + label + "</button>";
+  }
+  return '<nav class="tabbar">' + item("home", "Ahora") + item("apps", "Apps") + item("ajustes", "Ajustes") + "</nav>";
+}
+
+function bars(on) {
+  var bits = "";
+  for (var i = 0; i < 7; i++) bits += "<i></i>";
+  return '<div class="wave' + (on ? " on" : "") + '" aria-hidden="true">' + bits + "</div>";
+}
+
+function home(v) {
+  var s = v.state;
+  var c = v.copy;
+  var on = s.listener;
+  var word = s.speakingNow ? "Diciendo" : (on ? "Te lo leo" : "En silencio");
+  var names = v.joinNames(v.speakingNames());
+  var chips = v.rules().map(function (rule) { return "<span>" + v.esc(rule) + "</span>"; }).join("");
+  return '<div class="viewport"><div class="idline"><strong>TeLoLeo</strong><button type="button" class="pill" data-act="gopro">' + (s.pro ? "Pro activo" : "Gratis · 3") + "</button></div>" +
+    '<div class="hero"><h2>' + word + "</h2><p class=\"statusline\">" + (on ? c.listenerOn : c.listenerOff) + "</p><p class=\"fine\">" + v.esc(names) + ". " + (on ? c.turnOff : c.listenerOffDetail) + "</p></div>" +
+    '<section class="quote"><span>' + (on ? "Así suena ahora" : "Así sonaría") + "</span>" + bars(s.speakingNow) + "<p>" + v.esc(v.livePhrase()) + "</p></section>" +
+    (chips ? '<div class="chips">' + chips + "</div>" : "") +
+    '<button type="button" class="btn" data-act="listener">' + (on ? c.manage : c.enable) + "</button>" +
+    (on ? '<button type="button" class="btn ' + (s.speakingNow ? "warn" : "ghost") + '" data-act="silence">' + c.silence + "</button>" : "") +
+    '<div class="set" role="button" tabindex="0" data-act="redact"><div><strong>' + c.redact + '</strong><p class="fine">' + c.redactDetail + "</p></div>" + v.sw(s.redact) + "</div>" +
+    '<button type="button" class="linkrow" data-act="goto" data-id="apps"><span>Elegir apps</span><span>' + s.selected.length + "</span></button>" +
+    '<button type="button" class="linkrow" data-act="battery"><span>' + c.battery + "</span><span>" + v.esc(v.brand().name) + "</span></button>" +
+    "</div>" + tabs("home");
+}
+
+function apps(v) {
+  return '<div class="viewport"><div class="idline"><strong>Apps</strong><button type="button" class="texty" data-act="privacy">Privacidad</button></div>' +
+    '<div class="search"><input id="q" type="search" placeholder="' + v.copy.search + '" value="' + v.esc(v.state.query) + '" autocomplete="off">' +
+    (v.state.query ? '<button type="button" data-act="clear-search">Borrar</button>' : "") + "</div>" +
+    "<p class=\"fine\">" + v.countLine() + " " + v.quotaNote() + "</p>" + sections(v) + "</div>" + tabs("apps");
+}
+
+function sections(v) {
+  var s = v.state;
+  if (s.loading) return "<p>" + v.copy.loading + '</p><div class="skel"></div><div class="skel"></div>';
+  var sel = v.selectedVisible();
+  var oth = v.othersVisible();
+  var html = "";
+  if (!s.query && s.selected.length === 0) html += "<p>" + v.copy.silenceDefault + "</p>";
+  if (sel.length) html += "<h3>" + v.copy.sectionOn + "</h3>" + sel.map(function (app) { return appRow(v, app); }).join("");
+  if (!s.query || oth.length) html += "<h3>" + v.copy.sectionOff + "</h3>" + oth.map(function (app) { return appRow(v, app); }).join("");
+  if (s.query && !sel.length && !oth.length) html += "<p>" + v.copy.noHits + "</p>";
+  return html;
+}
+
+function appRow(v, app) {
+  var sub = app.extra ? v.copy.saved : (app.template && v.state.pro ? v.copy.ownPhrase : "");
+  return '<div class="app"><div class="app-hit" role="button" tabindex="0" data-act="toggle" data-id="' + app.id + '">' +
+    '<i class="av" style="background:' + app.color + '">' + v.esc(app.name.slice(0, 1).toUpperCase()) + "</i>" +
+    '<span class="meta"><strong>' + v.esc(app.name) + "</strong>" + (sub ? "<small>" + v.esc(sub) + "</small>" : "") + "</span>" +
+    v.sw(app.selected) + "</div>" +
+    (v.state.pro && app.selected ? '<button type="button" class="tpl" data-act="template" data-id="' + app.id + '">Frase</button>' : "") +
+    "</div>";
+}
+
+function ajustes(v) {
+  var s = v.state;
+  var c = v.copy;
+  return '<div class="viewport"><div class="idline"><strong>Ajustes</strong><button type="button" class="texty" data-act="privacy">Privacidad</button></div>' +
+    (s.pro ? "" : '<button type="button" class="btn" data-act="gopro">' + c.withPro + "</button><p class=\"fine\">" + c.readingNote + "</p>") +
+    quiet(v) + big(v, "headphones", c.headphones, s.headphones, "") + big(v, "shake", c.shake, s.shake, c.shakeDetail) +
+    slider(v, "rate", c.rate, s.rate, 0.7, 1.5) + slider(v, "vol", c.volume, s.volume, 0.3, 1) +
+    templateBlock(v) + filters(v) +
+    '<button type="button" class="linkrow" data-act="battery"><span>' + c.battery + "</span><span>" + v.esc(v.brand().name) + "</span></button>" +
+    '<button type="button" class="linkrow" data-act="gopro"><span>Pro</span><span>' + (s.pro ? "Activo" : "Pago único") + "</span></button>" +
+    "</div>" + tabs("ajustes");
+}
+
+function big(v, act, title, on, detail) {
+  if (!v.state.pro) return '<button type="button" class="opt" data-act="gopro"><span class="row"><strong>' + title + '</strong><span class="lock">Pro</span></span>' + (detail ? '<p class="fine">' + detail + "</p>" : "") + "</button>";
+  return '<div class="block"><div class="row" role="button" tabindex="0" data-act="' + act + '"><div><strong>' + title + "</strong>" + (detail ? '<p class="fine">' + detail + "</p>" : "") + "</div>" + v.sw(on) + "</div></div>";
+}
+
+function quiet(v) {
+  var s = v.state;
+  if (!s.pro) return '<button type="button" class="opt" data-act="gopro"><span class="row"><strong>' + v.copy.quiet + '</strong><span class="lock">Pro</span></span></button>';
+  return '<div class="block"><div class="row" role="button" tabindex="0" data-act="quiet"><strong>' + v.copy.quiet + "</strong>" + v.sw(s.quiet) + "</div>" +
+    (s.quiet ? '<div class="times">' + v.hours(s.quietFrom, "quiet-from") + v.hours(s.quietTo, "quiet-to") + "</div>" : "") + "</div>";
+}
+
+function slider(v, id, label, value, min, max) {
+  if (!v.state.pro) return '<button type="button" class="opt" data-act="gopro"><span class="row"><strong>' + label + '</strong><span class="lock">Pro</span></span></button>';
+  return '<div class="block"><strong>' + label + ' <span id="' + id + '-val">' + v.fmt(value) + "</span></strong>" +
+    '<input id="' + id + '" type="range" min="' + min + '" max="' + max + '" step="0.1" value="' + value + '"></div>';
+}
+
+function templateBlock(v) {
+  if (!v.state.pro) return '<button type="button" class="opt" data-act="gopro"><span class="row"><strong>' + v.copy.phraseTitle + '</strong><span class="lock">Pro</span></span></button>';
+  var current = v.state.template.trim() ? v.phrase(v.state.template) : "Aplicación, título y texto.";
+  return '<div class="block"><strong>' + v.copy.phraseTitle + '</strong><p class="fine">' + v.esc(current) + '</p><button type="button" class="btn ghost" data-act="template">' + v.copy.template + "</button></div>";
+}
+
+function filters(v) {
+  if (!v.state.pro) return '<button type="button" class="opt" data-act="gopro"><span class="row"><strong>' + v.copy.filters + '</strong><span class="lock">Pro</span></span><p class="fine">' + v.copy.filtersDetail + "</p></button>";
+  var chips = v.state.filters.map(function (word, i) {
+    return '<button type="button" class="chip" data-act="unfilter" data-i="' + i + '">' + v.esc(word) + " ×</button>";
+  }).join("");
+  return '<div class="block"><strong>' + v.copy.filters + '</strong><p class="fine">' + v.copy.filtersDetail + '</p><div class="chips">' + chips + '</div><div class="add"><input id="filter" type="text" placeholder="' + v.copy.filtersHint + '"><button type="button" data-act="addfilter">' + v.copy.add + "</button></div></div>";
+}
+
+function pro(v) {
+  var o = v.offerModel();
+  var buy = o.showBuy ? '<button type="button" class="btn" data-act="buy"' + (o.disabled ? " disabled" : "") + ">" + v.esc(o.label) + "</button>" : "";
+  return '<div class="viewport"><button type="button" class="back" data-act="back">← ' + v.copy.back + "</button><h2 style=\"font-size:56px;line-height:.9;margin:10px 0\">Pro</h2><p class=\"statusline\">" + v.copy.proIntro + "</p>" +
+    (o.active ? "<p>" + v.copy.proActive + "</p>" : "") +
+    (o.pending ? "<p>" + v.copy.proPending + "</p>" : "") +
+    (o.notice ? "<p>" + o.notice + "</p>" : "") +
+    '<div class="compare"><article><h3>Gratis</h3><ul><li>3 apps</li><li>Sin límite de lecturas</li><li>Voz del sistema</li><li>Códigos ocultos</li></ul></article>' +
+    '<article class="procol"><h3>Pro</h3><ul><li>Todas las apps</li><li>Horario y auriculares</li><li>Frase, filtro, agitar</li><li>Velocidad y volumen</li></ul></article></div>' +
+    '<p class="fine">' + v.copy.proFree + "</p>" + buy +
+    '<button type="button" class="btn ghost" data-act="restore">' + v.copy.restore + "</button></div>";
+}
+
+function privacy(v) {
+  var blocks = v.privacy.map(function (row) {
+    return "<article><h3>" + row[0] + "</h3><p>" + row[1] + "</p></article>";
+  }).join("");
+  return '<div class="viewport doc"><button type="button" class="back" data-act="back">← ' + v.copy.back + "</button><h2>" + v.copy.privacyTitle + "</h2><p>" + v.copy.privacyIntro + "</p>" + blocks + '<p class="fine">' + v.copy.privacyUrl + "</p></div>";
+}
+</script>
+</body>
+</html>

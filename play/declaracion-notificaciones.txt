@@ -1,0 +1,9 @@
+Acceso a notificaciones
+
+TeLoLeo lee en voz alta las notificaciones de las apps que la persona elige. Sin ese acceso no hay nada que decir. No se usa para publicidad ni para otro fin.
+
+El texto del aviso se convierte en voz en el teléfono y se descarta. No se envía a un servidor, no se guarda como historial y no se comparte.
+
+Antes de abrir el ajuste de Android, la app muestra qué se lee, que el texto no sale del teléfono, cómo se apaga y que los códigos de un solo uso se dicen «oculto».
+
+La persona puede no conceder el permiso, quitar apps de la lista o desactivar la lectura en Inicio. El permiso del sistema se quita en Ajustes, Acceso a las notificaciones.

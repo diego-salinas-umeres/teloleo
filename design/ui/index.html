@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TeLoLeo — tres propuestas de interfaz</title>
+<style>
+  :root { --ink: #1C1714; --muted: #6A5F55; --paper: #F4EFE6; --card: #FFFBF6; --line: #E4D8C8; --teal: #0C6B62; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.45 "Segoe UI", sans-serif; }
+  main { max-width: 1080px; margin: 0 auto; padding: 36px 22px 64px; }
+  .eyebrow { letter-spacing: .16em; text-transform: uppercase; font-size: 12px; font-weight: 700; color: var(--muted); margin: 0 0 8px; }
+  h1 { font-size: 44px; line-height: 1; letter-spacing: -.03em; margin: 0 0 12px; }
+  h2 { font-size: 22px; margin: 32px 0 8px; }
+  p { max-width: 44rem; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+  a.card { display: block; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 16px; color: inherit; text-decoration: none; }
+  a.card strong { display: block; font-size: 22px; margin-bottom: 6px; }
+  a.card span, p a { color: var(--teal); font-weight: 700; }
+  ul { margin: 8px 0 0; padding-left: 18px; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 16px; overflow: hidden; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
+  th { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  td a { color: var(--teal); }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 34px; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Maqueta · no cambia la app todavía</p>
+  <h1>Tres formas de arreglar TeLoLeo</h1>
+  <p>Hoy la app es una sola lista: estado, cientos de apps, lectura y batería. Abre una propuesta y usa la columna izquierda. Cada fila es una vista o un estado real.</p>
+  <div class="grid">
+    <a class="card" href="propuesta-tablero.html"><strong>A · Tablero</strong> El inicio dice si está leyendo. Apps y ajustes van en pestañas. <span>Abrir</span></a>
+    <a class="card" href="propuesta-lista.html"><strong>B · Lista</strong> Elegir apps es la pantalla. El estado se queda fijo arriba y la batería no espera al final. <span>Abrir</span></a>
+    <a class="card" href="propuesta-voz.html"><strong>C · Voz</strong> Tipo grande y la frase que se va a oír. La divulgación ocupa la pantalla. <span>Abrir</span></a>
+  </div>
+  <p>El primer arranque va aparte: <a href="onboarding.html">tres propuestas de onboarding</a>. Bienvenida, cómo se lee un aviso, el permiso y las apps que se quieren oír.</p>
+
+  <h2>Lo que hoy falla</h2>
+  <ul>
+    <li>Estado, apps, lectura y batería comparten un scroll. Con muchas apps, lo importante queda abajo.</li>
+    <li>«La lectura está activa» es un párrafo. Callar, que dura 2 minutos, es un botón de texto.</li>
+    <li>Privacidad y Pro compiten con el nombre en la cabecera.</li>
+    <li>Las opciones de Pro parecen interruptores muertos. El toque no explica el candado.</li>
+    <li>El cupo de 3 casi no se explica. La cuarta app aparece de golpe.</li>
+    <li>Nunca se muestra cómo va a sonar la frase.</li>
+    <li>La guía de batería, que decide si la lectura sigue viva, va al final.</li>
+    <li>La divulgación es un bloque largo. El horario es un menú de 24 horas y el filtro, un campo de comas.</li>
+  </ul>
+
+  <h2>Las mismas vistas, en las tres</h2>
+  <p>La columna de cada maqueta abre estos estados. El enlace salta a la misma vista en esa propuesta.</p>
+  <table>
+    <thead><tr><th>Vista</th><th>Tablero</th><th>Lista</th><th>Voz</th></tr></thead>
+    <tbody>
+      <tr><td>Lectura apagada</td><td><a href="propuesta-tablero.html#home-off">Abrir</a></td><td><a href="propuesta-lista.html#home-off">Abrir</a></td><td><a href="propuesta-voz.html#home-off">Abrir</a></td></tr>
+      <tr><td>Leyendo</td><td><a href="propuesta-tablero.html#home-on">Abrir</a></td><td><a href="propuesta-lista.html#home-on">Abrir</a></td><td><a href="propuesta-voz.html#home-on">Abrir</a></td></tr>
+      <tr><td>Hablando ahora</td><td><a href="propuesta-tablero.html#home-speaking">Abrir</a></td><td><a href="propuesta-lista.html#home-speaking">Abrir</a></td><td><a href="propuesta-voz.html#home-speaking">Abrir</a></td></tr>
+      <tr><td>Apps</td><td><a href="propuesta-tablero.html#apps">Abrir</a></td><td><a href="propuesta-lista.html#apps">Abrir</a></td><td><a href="propuesta-voz.html#apps">Abrir</a></td></tr>
+      <tr><td>Sin marcas</td><td><a href="propuesta-tablero.html#apps-empty">Abrir</a></td><td><a href="propuesta-lista.html#apps-empty">Abrir</a></td><td><a href="propuesta-voz.html#apps-empty">Abrir</a></td></tr>
+      <tr><td>Búsqueda y sin resultados</td><td><a href="propuesta-tablero.html#apps-search">Buscar</a> · <a href="propuesta-tablero.html#apps-none">Vacío</a></td><td><a href="propuesta-lista.html#apps-search">Buscar</a> · <a href="propuesta-lista.html#apps-none">Vacío</a></td><td><a href="propuesta-voz.html#apps-search">Buscar</a> · <a href="propuesta-voz.html#apps-none">Vacío</a></td></tr>
+      <tr><td>Cargando</td><td><a href="propuesta-tablero.html#apps-loading">Abrir</a></td><td><a href="propuesta-lista.html#apps-loading">Abrir</a></td><td><a href="propuesta-voz.html#apps-loading">Abrir</a></td></tr>
+      <tr><td>Guardada hasta Pro</td><td><a href="propuesta-tablero.html#apps-extra">Abrir</a></td><td><a href="propuesta-lista.html#apps-extra">Abrir</a></td><td><a href="propuesta-voz.html#apps-extra">Abrir</a></td></tr>
+      <tr><td>Lectura bloqueada y con Pro</td><td><a href="propuesta-tablero.html#lectura">Bloqueada</a> · <a href="propuesta-tablero.html#lectura-pro">Pro</a></td><td><a href="propuesta-lista.html#lectura">Bloqueada</a> · <a href="propuesta-lista.html#lectura-pro">Pro</a></td><td><a href="propuesta-voz.html#lectura">Bloqueada</a> · <a href="propuesta-voz.html#lectura-pro">Pro</a></td></tr>
+      <tr><td>Plantilla general y de una app</td><td><a href="propuesta-tablero.html#plantilla">General</a> · <a href="propuesta-tablero.html#plantilla-app">App</a></td><td><a href="propuesta-lista.html#plantilla">General</a> · <a href="propuesta-lista.html#plantilla-app">App</a></td><td><a href="propuesta-voz.html#plantilla">General</a> · <a href="propuesta-voz.html#plantilla-app">App</a></td></tr>
+      <tr><td>Límite de 3</td><td><a href="propuesta-tablero.html#limite">Abrir</a></td><td><a href="propuesta-lista.html#limite">Abrir</a></td><td><a href="propuesta-voz.html#limite">Abrir</a></td></tr>
+      <tr><td>Divulgación</td><td><a href="propuesta-tablero.html#divulgacion">Abrir</a></td><td><a href="propuesta-lista.html#divulgacion">Abrir</a></td><td><a href="propuesta-voz.html#divulgacion">Abrir</a></td></tr>
+      <tr><td>Batería</td><td><a href="propuesta-tablero.html#bateria">Abrir</a></td><td><a href="propuesta-lista.html#bateria">Abrir</a></td><td><a href="propuesta-voz.html#bateria">Abrir</a></td></tr>
+      <tr><td>Ajuste del sistema</td><td><a href="propuesta-tablero.html#sistema">Abrir</a></td><td><a href="propuesta-lista.html#sistema">Abrir</a></td><td><a href="propuesta-voz.html#sistema">Abrir</a></td></tr>
+      <tr><td>Pro: comprar, precio, pendiente, errores, activo</td><td><a href="propuesta-tablero.html#pro">Comprar</a> · <a href="propuesta-tablero.html#pro-active">Activo</a></td><td><a href="propuesta-lista.html#pro">Comprar</a> · <a href="propuesta-lista.html#pro-active">Activo</a></td><td><a href="propuesta-voz.html#pro">Comprar</a> · <a href="propuesta-voz.html#pro-active">Activo</a></td></tr>
+      <tr><td>Privacidad</td><td><a href="propuesta-tablero.html#privacidad">Abrir</a></td><td><a href="propuesta-lista.html#privacidad">Abrir</a></td><td><a href="propuesta-voz.html#privacidad">Abrir</a></td></tr>
+    </tbody>
+  </table>
+  <p>En Pro, la columna también abre pendiente, Play no disponible, producto ausente y compra fallida. Los textos de privacidad, divulgación y batería son los de la app. El precio con cifra es un ejemplo.</p>
+</main>
+</body>
+</html>

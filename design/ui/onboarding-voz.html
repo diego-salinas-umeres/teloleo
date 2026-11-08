@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TeLoLeo — Onboarding Voz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --studio: #070C0B;
+    --ink: #F4FFF8;
+    --muted: #93B0A6;
+    --phone: #081412;
+    --card: #122420;
+    --line: #1D3330;
+    --accent: #D6FF4A;
+    --ink-2: #102108;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--studio); color: var(--ink); font-family: Outfit, "Segoe UI", sans-serif; }
+  button, input { font: inherit; }
+  .top { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; padding: 28px 28px 8px; }
+  .eyebrow { margin: 0 0 6px; letter-spacing: .16em; text-transform: uppercase; font-size: 12px; font-weight: 700; color: var(--muted); }
+  h1 { margin: 0; font-size: 42px; font-weight: 650; letter-spacing: -.04em; }
+  .lede { max-width: 42rem; margin: 8px 0 0; line-height: 1.45; color: #D5E7DF; }
+  .siblings { display: flex; gap: 8px; flex-wrap: wrap; }
+  .siblings a { color: var(--ink); text-decoration: none; border: 1px solid #23403A; border-radius: 999px; padding: 8px 12px; }
+  .siblings a[aria-current="page"] { background: var(--accent); color: var(--ink-2); border-color: transparent; }
+  .stage { display: grid; grid-template-columns: 220px 410px minmax(260px, 1fr); gap: 28px; align-items: start; padding: 12px 28px 48px; }
+  .rail, .device { position: sticky; top: 12px; }
+  .rail { max-height: calc(100vh - 24px); overflow: auto; }
+  .rail h3 { margin: 16px 0 6px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .rail button { display: block; width: 100%; text-align: left; border: 0; background: transparent; color: var(--ink); border-radius: 10px; padding: 7px 10px; cursor: pointer; }
+  .rail button.on { background: #17302B; font-weight: 700; }
+  .device { width: 390px; height: 800px; background: #000; border-radius: 46px; padding: 10px; box-shadow: 0 30px 80px rgba(0, 0, 0, .45); }
+  .screen { height: 100%; background: var(--phone); color: var(--ink); border-radius: 36px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+  .statusbar { flex: none; display: flex; justify-content: space-between; padding: 12px 22px 0; font-size: 12px; font-weight: 700; }
+  .viewport { flex: 1; min-height: 0; overflow: auto; padding: 8px 18px 28px; }
+  .viewport.hasdock { padding-bottom: 132px; }
+  .screen button, .screen input { font: inherit; color: inherit; }
+  .back { border: 0; background: transparent; color: var(--accent); font-weight: 700; padding: 0 0 8px; cursor: pointer; }
+  .dots { display: flex; gap: 6px; margin: 4px 0 12px; }
+  .dots i { width: 28px; height: 4px; border-radius: 99px; background: #23403A; display: block; }
+  .dots i.on { background: var(--accent); }
+  .viewport h2 { font-size: 46px; line-height: .92; letter-spacing: -.045em; font-weight: 650; margin: 8px 0 12px; }
+  .sub, .fine { color: var(--muted); line-height: 1.4; font-size: 17px; }
+  .sub { margin: 0 0 12px; }
+  .kicker { color: var(--muted); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+  .wave { display: flex; align-items: flex-end; gap: 4px; height: 28px; margin: 12px 0; }
+  .wave i { width: 5px; border-radius: 4px; background: var(--accent); display: block; }
+  .wave i:nth-child(1) { height: 8px; } .wave i:nth-child(2) { height: 18px; }
+  .wave i:nth-child(3) { height: 12px; } .wave i:nth-child(4) { height: 24px; }
+  .wave i:nth-child(5) { height: 14px; } .wave i:nth-child(6) { height: 20px; }
+  .wave i:nth-child(7) { height: 9px; }
+  .wave.on i { animation: hop 1s ease-in-out infinite; }
+  .wave i:nth-child(2) { animation-delay: .1s; } .wave i:nth-child(4) { animation-delay: .05s; }
+  .wave i:nth-child(6) { animation-delay: .18s; }
+  @keyframes hop { 50% { height: 28px; } }
+  .bubble { background: var(--card); border-radius: 24px; padding: 16px; margin: 8px 0 14px; }
+  .bubble strong { display: block; font-size: 18px; }
+  .bubble p { margin: 6px 0 0; font-size: 22px; font-weight: 650; line-height: 1.15; }
+  .lines { list-style: none; padding: 0; margin: 0; }
+  .lines li { margin: 0 0 16px; }
+  .lines h2 { margin-bottom: 4px; }
+  .lines p { margin: 0; }
+  .facts { list-style: none; padding: 0; margin: 0 0 12px; }
+  .facts li { background: var(--card); border-radius: 18px; padding: 12px 14px; margin-bottom: 8px; line-height: 1.35; }
+  .banner { width: 100%; text-align: left; border: 0; background: #2A2210; color: var(--accent); border-radius: 16px; padding: 12px 14px; font-weight: 700; cursor: pointer; margin-bottom: 10px; }
+  .search { display: flex; gap: 8px; background: var(--card); border-radius: 18px; padding: 4px 8px 4px 14px; margin: 8px 0 12px; }
+  .search input { flex: 1; border: 0; background: transparent; color: var(--ink); min-height: 46px; outline: none; font-size: 17px; }
+  .search button { border: 0; background: transparent; color: var(--accent); font-weight: 700; cursor: pointer; }
+  .group { margin: 14px 0 6px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .app { width: 100%; min-height: 68px; display: flex; align-items: center; gap: 12px; text-align: left; border: 0; background: var(--card); color: var(--ink); border-radius: 20px; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; }
+  .app.on { background: var(--accent); color: var(--ink-2); }
+  .app .meta { flex: 1; }
+  .app strong { font-size: 18px; }
+  .av { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; color: #fff; font-weight: 700; font-style: normal; flex: none; }
+  .tick { width: 28px; height: 28px; border-radius: 50%; box-shadow: inset 0 0 0 2px #34564C; flex: none; }
+  .app.on .tick { background: var(--ink-2); box-shadow: none; }
+  .app.on .tick::after { content: ""; display: block; width: 8px; height: 14px; border: solid var(--accent); border-width: 0 3px 3px 0; transform: rotate(45deg); margin: 4px auto 0; }
+  .empty { color: var(--muted); }
+  .dock { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; display: flex; flex-direction: column; gap: 2px; padding: 28px 18px 18px; background: linear-gradient(transparent, var(--phone) 34%); }
+  .screen .btn { width: 100%; border: 0; background: var(--accent); color: var(--ink-2); min-height: 56px; border-radius: 18px; font-size: 18px; font-weight: 700; cursor: pointer; }
+  .screen .btn.ghost { background: transparent; color: var(--accent); box-shadow: inset 0 0 0 1.5px #34564C; margin-top: 8px; }
+  .screen .btn:disabled { opacity: .4; }
+  .screen .texty { border: 0; background: transparent; color: var(--accent); font-weight: 700; min-height: 44px; cursor: pointer; }
+  .count { text-align: center; color: var(--muted); margin: 0 0 4px; }
+  .scrim { position: absolute; inset: 0; z-index: 30; background: rgba(0, 0, 0, .62); display: flex; align-items: flex-end; }
+  .sheet { width: 100%; background: #122420; color: var(--ink); border-radius: 28px 28px 36px 36px; padding: 22px 18px 24px; }
+  .sheet h3 { font-size: 30px; line-height: 1; margin: 0 0 8px; letter-spacing: -.03em; }
+  .sheet p, .sheet li { line-height: 1.4; color: #D5E7DF; }
+  .sheet strong { color: var(--ink); }
+  .sheet ul { margin: 8px 0 12px; padding-left: 18px; }
+  aside ul { margin: 0 0 18px; padding-left: 18px; line-height: 1.45; color: #D5E7DF; }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (max-width: 1100px) {
+    .stage { grid-template-columns: 1fr; }
+    .rail, .device { position: relative; top: 0; }
+    .device { margin: 0 auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+<link rel="stylesheet" href="onboarding.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <p class="eyebrow">Onboarding C · maqueta navegable</p>
+    <h1>Voz</h1>
+    <p class="lede">TeLoLeo habla en primera persona y enseña el flujo con una frase, no con un diagrama. El ejemplo se puede cambiar: uno de ellos es un código que se oye como «oculto». El permiso y las apps vienen después de haber oído qué va a pasar.</p>
+  </div>
+  <nav class="siblings">
+    <a href="index.html">Interfaces</a>
+    <a href="onboarding.html">Onboarding</a>
+    <a href="onboarding-recorrido.html">Recorrido</a>
+    <a href="onboarding-tareas.html">Tareas</a>
+    <a href="onboarding-voz.html" aria-current="page">Voz</a>
+  </nav>
+</header>
+<div class="stage">
+  <nav class="rail" id="rail" aria-label="Pasos"></nav>
+  <div class="device"><div class="screen" id="screen"></div></div>
+  <aside>
+    <p class="eyebrow">Qué propone</p>
+    <ul>
+      <li>La primera pantalla es una frase. Tipo grande, una onda, un botón.</li>
+      <li>El flujo se enseña dos veces: primero un aviso de verdad, luego tres verbos: llega, lo digo, lo olvido.</li>
+      <li>«Otro ejemplo» pasa por WhatsApp, un código de Gmail y Telegram.</li>
+      <li>La divulgación sigue en voz de la app, con los mismos cuatro hechos, y el ajuste de Android se ve distinto.</li>
+      <li>Elegir apps es «¿Cuáles oigo?». La fila marcada se vuelve el color de la voz.</li>
+      <li>Si se vuelve sin permiso, se puede marcar igual. La lista avisa que todavía no hay lectura.</li>
+    </ul>
+    <p class="fine">Maqueta. No cambia la app. No hay audio de verdad: la onda y la frase ocupan el lugar de la voz.</p>
+  </aside>
+</div>
+<script src="onboarding.js"></script>
+<script>
+(function () {
+  "use strict";
+  var O = window.Onboarding;
+  var RAIL = [
+    { group: "Voz", id: "hola", label: "Bienvenida" },
+    { group: "Voz", id: "ejemplo", label: "Un aviso" },
+    { group: "Voz", id: "flujo", label: "En tres frases" },
+    { group: "Permiso", id: "permiso", label: "Divulgación" },
+    { group: "Permiso", id: "sistema", label: "Ajuste de Android" },
+    { group: "Permiso", id: "sin-permiso", label: "Sin activar" },
+    { group: "Apps", id: "apps", label: "Qué apps" },
+    { group: "Apps", id: "limite", label: "Límite de 3" },
+    { group: "Cierre", id: "listo", label: "Listo" }
+  ];
+  var PRESETS = {
+    hola: { step: "hola" },
+    ejemplo: { step: "ejemplo", sample: 0 },
+    flujo: { step: "flujo" },
+    permiso: { step: "permiso" },
+    sistema: { step: "sistema" },
+    "sin-permiso": { step: "sin-permiso" },
+    apps: { step: "apps", listener: true },
+    limite: { step: "apps", listener: true, selected: ["wa", "tg", "gm"], limit: true, blocked: "Signal" },
+    listo: { step: "listo", listener: true, selected: ["wa", "tg"] }
+  };
+  var state = blank();
+
+  function blank() {
+    return { step: "hola", listener: false, selected: [], query: "", dialog: false, limit: false, pro: false, blocked: "", hint: "", sample: 0, just: false, rail: "hola" };
+  }
+  function carry(over) {
+    return Object.assign({ selected: state.selected.slice(), listener: state.listener, sample: state.sample, query: "" }, over || {});
+  }
+  function go(id, extra, mode) {
+    if (!PRESETS[id]) return;
+    state = Object.assign(blank(), PRESETS[id], extra || {});
+    state.selected = (state.selected || []).slice();
+    state.rail = id;
+    var url = "#" + id;
+    if (location.hash !== url) {
+      if (mode === "replace") history.replaceState({ id: id }, "", url);
+      else history.pushState({ id: id }, "", url);
+    }
+    render();
+  }
+  function toggle(id) {
+    var at = state.selected.indexOf(id);
+    if (at >= 0) {
+      state.selected.splice(at, 1);
+      state.limit = false;
+    } else if (state.selected.length >= 3) {
+      state.blocked = O.byId(id).name;
+      state.limit = true;
+      state.pro = false;
+    } else {
+      state.selected.push(id);
+      state.limit = false;
+    }
+    render();
+  }
+  function backTo() {
+    if (state.step === "ejemplo") return "hola";
+    if (state.step === "flujo") return "ejemplo";
+    if (state.step === "permiso") return "flujo";
+    if (state.step === "sin-permiso") return "permiso";
+    if (state.step === "apps") return state.listener ? "permiso" : "sin-permiso";
+    if (state.step === "listo") return "apps";
+    return "";
+  }
+  function dots(n) {
+    var html = '<div class="dots" aria-hidden="true">';
+    for (var i = 1; i <= 4; i++) html += "<i" + (i <= n ? ' class="on"' : "") + "></i>";
+    return html + "</div>";
+  }
+  function backBtn() {
+    return state.step === "hola" || state.step === "sistema" ? "" : '<button type="button" class="back" data-act="back">Atrás</button>';
+  }
+  function wave() {
+    return '<div class="wave on" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>';
+  }
+  function dock(act, label, altAct, altLabel, disabled) {
+    return '<div class="dock"><button type="button" class="btn" data-act="' + act + '"' + (disabled ? " disabled" : "") + ">" + label + "</button>" +
+      (altAct ? '<button type="button" class="texty" data-act="' + altAct + '">' + altLabel + "</button>" : "") + "</div>";
+  }
+  function frame(body, foot) {
+    return '<div class="statusbar"><span>9:41</span><span>5G</span></div><div class="viewport' + (foot ? " hasdock" : "") + '">' + body + "</div>" + (foot || "");
+  }
+  function body() {
+    var back = backBtn();
+    if (state.step === "hola") {
+      return dots(1) + '<p class="kicker">TeLoLeo</p><h2>Hola. Yo leo tus avisos.</h2>' +
+        '<p class="sub">En voz alta. Solo de las apps que marques.</p>' + wave() +
+        '<p class="fine">El texto no sale del teléfono.</p>';
+    }
+    if (state.step === "ejemplo") {
+      var sample = O.sampleAt(state.sample);
+      return back + dots(2) + '<p class="kicker">Por ejemplo</p>' +
+        '<div class="bubble"><strong>' + O.esc(sample.kicker) + "</strong><p>" + O.esc(sample.line.text) + "</p></div>" +
+        '<p class="kicker">Así sonaría</p><h2>' + O.esc(sample.line.spoken) + "</h2>" + wave() +
+        (sample.line.hidden ? '<p class="fine">El código no se dice. Se oye «oculto».</p>' : '<p class="fine">Aplicación, quién escribe y el texto.</p>');
+    }
+    if (state.step === "flujo") {
+      return back + dots(2) + '<ul class="lines">' +
+        "<li><h2>Llega.</h2><p class=\"sub\">Un aviso de una app que marcaste. El resto ni lo miro.</p></li>" +
+        "<li><h2>Lo digo.</h2><p class=\"sub\">Con la voz de este teléfono. Desde Inicio puedes callarme dos minutos.</p></li>" +
+        "<li><h2>Lo olvido.</h2><p class=\"sub\">No se guarda y no sale de aquí. Inicio, Apps y Lectura: eso es la app. Lo demás es Pro.</p></li>" +
+        "</ul>";
+    }
+    if (state.step === "permiso") {
+      return back + dots(3) + "<h2>Para decirte los avisos, Android tiene que dejarme verlos.</h2>" +
+        '<ul class="facts">' +
+        "<li>Solo hablo de las apps que marques.</li>" +
+        "<li>El texto no se envía, no se guarda y no se vende.</li>" +
+        "<li>Me apagas en ese ajuste, o quitándome apps.</li>" +
+        "<li>Un código de un solo uso lo digo como «oculto», salvo que lo cambies.</li>" +
+        "</ul>" +
+        '<p class="fine">El siguiente paso es el ajuste de Android, no una pantalla mía.</p>';
+    }
+    if (state.step === "sin-permiso") {
+      return back + dots(3) + "<h2>Sigo en silencio.</h2>" +
+        '<p class="sub">Sin el acceso no oigo nada. Actívalo ahora, o marca apps y las guardo hasta que lo hagas.</p>';
+    }
+    if (state.step === "apps") {
+      return back + dots(4) +
+        (state.listener ? "" : '<button type="button" class="banner" data-act="to-permiso">Aún no te puedo leer. Activar el permiso.</button>') +
+        "<h2>" + (state.just ? "Ya puedo oír." : "¿Cuáles oigo?") + "</h2>" +
+        '<p class="sub">Por defecto, silencio. En la versión gratis, tres.</p>' +
+        '<div class="search"><input id="q" type="search" placeholder="Buscar app" value="' + O.esc(state.query) + '" autocomplete="off" aria-label="Buscar app">' +
+        (state.query ? '<button type="button" data-act="clear">Borrar</button>' : "") + "</div>" +
+        '<div id="applist">' + O.rows(state.selected, state.query) + "</div>";
+    }
+    var first = state.selected[0];
+    var line = first ? O.phrase(first) : null;
+    var rest = O.listNames(state.selected.slice(1));
+    var closing = first
+      ? "La próxima de " + O.byId(first).name + ", te la leo." + (rest ? " También " + rest + "." : "")
+      : "";
+    return '<p class="kicker">TeLoLeo</p><h2>Listo.</h2>' + wave() +
+      (closing ? '<p class="sub">' + O.esc(closing) + "</p>" : '<p class="sub">No marcaste ninguna. Sigo en silencio.</p>') +
+      (line ? '<div class="bubble"><strong>Así sonaría</strong><p>' + O.esc(line.spoken) + "</p></div>" : "") +
+      (state.listener ? '<p class="fine">Me callas quitándome la app, o desactivándome en el acceso a notificaciones.</p>' : '<p class="fine">Falta el permiso. Hasta entonces no hablo.</p>');
+  }
+  function foot() {
+    if (state.step === "hola") return dock("next", "Siguiente");
+    if (state.step === "ejemplo") return dock("next", "Siguiente", "sample", "Otro ejemplo");
+    if (state.step === "flujo") return dock("next", "Siguiente");
+    if (state.step === "permiso") return dock("open-system", "Abrir el ajuste", "skip", "Ahora no");
+    if (state.step === "sin-permiso") return dock("to-permiso", "Activar el permiso", "to-apps-silent", "Marcar apps igual");
+    if (state.step === "apps") {
+      var ready = state.selected.length > 0;
+      return '<div class="dock"><p class="count" id="count">' + state.selected.length + " de 3</p>" +
+        '<button type="button" class="btn" data-act="finish"' + (ready ? "" : " disabled") + ">" +
+        (ready ? "Estas" : "Marca al menos una") + "</button></div>";
+    }
+    if (state.step === "listo" && !state.listener) return dock("to-permiso", "Activar el permiso");
+    return "";
+  }
+  function view() {
+    if (state.step === "sistema") return O.system({ dialog: state.dialog, hint: state.hint });
+    return frame(body(), foot()) + (state.limit ? O.limit(state.blocked, state.pro) : "");
+  }
+  function paintRail() {
+    var html = "";
+    var last = "";
+    RAIL.forEach(function (item) {
+      if (item.group !== last) { html += "<h3>" + item.group + "</h3>"; last = item.group; }
+      var on = item.id === state.rail;
+      html += '<button type="button" data-rail="' + item.id + '"' + (on ? ' class="on" aria-current="true"' : "") + ">" + item.label + "</button>";
+    });
+    document.getElementById("rail").innerHTML = html;
+  }
+  var prev = "";
+  function render() {
+    var keep = prev === state.step;
+    var sc = document.querySelector(".viewport");
+    var top = keep && sc ? sc.scrollTop : 0;
+    document.getElementById("screen").innerHTML = view();
+    prev = state.step;
+    var next = document.querySelector(".viewport");
+    if (keep && next) next.scrollTop = top;
+    paintRail();
+  }
+  document.getElementById("rail").addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-rail]");
+    if (btn) go(btn.getAttribute("data-rail"));
+  });
+  document.getElementById("screen").addEventListener("input", function (e) {
+    if (e.target.id !== "q") return;
+    state.query = e.target.value;
+    var list = document.getElementById("applist");
+    if (list) list.innerHTML = O.rows(state.selected, state.query);
+  });
+  document.getElementById("screen").addEventListener("click", function (e) {
+    var el = e.target.closest("[data-act]");
+    if (!el) return;
+    var act = el.getAttribute("data-act");
+    if (act === "app") { toggle(el.getAttribute("data-id")); return; }
+    if (act === "clear") { state.query = ""; render(); return; }
+    if (act === "limit-close") { state.limit = false; state.pro = false; render(); return; }
+    if (act === "limit-pro") { state.pro = true; render(); return; }
+    if (act === "switch") { state.dialog = true; state.hint = ""; render(); return; }
+    if (act === "deny") { state.dialog = false; state.hint = "No se concedió. Sin este permiso, no te leo."; render(); return; }
+    if (act === "allow") { go("apps", carry({ listener: true, just: true }), "replace"); return; }
+    if (act === "system-back") { go("sin-permiso", carry({ listener: false })); return; }
+    if (act === "sample") { state.sample += 1; render(); return; }
+    if (act === "next" && state.step === "hola") { go("ejemplo", carry()); return; }
+    if (act === "next" && state.step === "ejemplo") { go("flujo", carry()); return; }
+    if (act === "next" && state.step === "flujo") { go("permiso", carry()); return; }
+    if (act === "open-system") { go("sistema", carry()); return; }
+    if (act === "skip" || act === "to-apps-silent") { go("apps", carry({ listener: false, just: false })); return; }
+    if (act === "to-permiso") { go("permiso", carry()); return; }
+    if (act === "finish") { if (state.selected.length) go("listo", carry()); return; }
+    if (act === "back") { var id = backTo(); if (id) go(id, carry()); }
+  });
+  window.addEventListener("popstate", function () {
+    var id = (location.hash || "#hola").slice(1);
+    if (PRESETS[id]) go(id, null, "replace");
+  });
+  var start = (location.hash || "#hola").slice(1);
+  go(PRESETS[start] ? start : "hola", null, "replace");
+})();
+</script>
+</body>
+</html>

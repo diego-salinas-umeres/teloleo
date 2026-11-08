@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TeLoLeo — Onboarding Tareas</title>
+<style>
+  :root {
+    --studio: #E4E1D6;
+    --ink: #1A1916;
+    --muted: #5E5A52;
+    --phone: #F7F6F1;
+    --card: #FFFFFF;
+    --line: #E3E0D6;
+    --teal: #0C6B62;
+    --soft: #E5F3EF;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--studio); color: var(--ink); font-family: "Segoe UI", sans-serif; }
+  button, input { font: inherit; }
+  .top { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; padding: 28px 28px 8px; }
+  .eyebrow { margin: 0 0 6px; letter-spacing: .16em; text-transform: uppercase; font-size: 12px; font-weight: 700; color: var(--muted); }
+  h1 { margin: 0; font-size: 40px; font-weight: 650; letter-spacing: -.03em; }
+  .lede { max-width: 42rem; margin: 8px 0 0; line-height: 1.45; }
+  .siblings { display: flex; gap: 8px; flex-wrap: wrap; }
+  .siblings a { color: inherit; text-decoration: none; border: 1px solid rgba(26,25,22,.18); border-radius: 999px; padding: 8px 12px; }
+  .siblings a[aria-current="page"] { background: var(--ink); color: #fff; border-color: transparent; }
+  .stage { display: grid; grid-template-columns: 220px 410px minmax(260px, 1fr); gap: 28px; align-items: start; padding: 12px 28px 48px; }
+  .rail, .device { position: sticky; top: 12px; }
+  .rail { max-height: calc(100vh - 24px); overflow: auto; }
+  .rail h3 { margin: 16px 0 6px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .rail button { display: block; width: 100%; text-align: left; border: 0; background: transparent; border-radius: 10px; padding: 7px 10px; cursor: pointer; color: inherit; }
+  .rail button.on { background: #fff; font-weight: 700; }
+  .device { width: 390px; height: 800px; background: #121212; border-radius: 42px; padding: 10px; box-shadow: 0 24px 60px rgba(20, 20, 16, .22); }
+  .screen { height: 100%; background: var(--phone); color: var(--ink); border-radius: 32px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+  .statusbar { flex: none; display: flex; justify-content: space-between; padding: 12px 18px 0; font-size: 12px; font-weight: 700; }
+  .viewport { flex: 1; min-height: 0; overflow: auto; padding: 8px 16px 24px; }
+  .viewport.hasdock { padding-bottom: 120px; }
+  .screen button, .screen input { font: inherit; color: inherit; }
+  .back { border: 0; background: transparent; color: var(--teal); font-weight: 700; padding: 0 0 8px; cursor: pointer; }
+  .viewport h2 { font-size: 40px; line-height: 1; letter-spacing: -.03em; margin: 6px 0 8px; }
+  .sub, .fine { color: var(--muted); line-height: 1.4; }
+  .sub { margin: 0 0 14px; font-size: 16px; }
+  .tasks { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .task { background: var(--card); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  .task-h, .task > button { width: 100%; display: flex; gap: 12px; align-items: center; text-align: left; background: transparent; border: 0; padding: 14px; cursor: pointer; }
+  .task-h { cursor: default; }
+  .task b { width: 32px; height: 32px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; flex: none; }
+  .task.done > button b, .task.open b { background: var(--teal); }
+  .task.wait { opacity: .72; }
+  .task strong { display: block; font-size: 17px; color: var(--ink); }
+  .task span, .task p { color: var(--muted); }
+  .said { color: var(--ink); }
+  .task.ready > button b { background: var(--ink); }
+  .task-b { padding: 0 14px 14px; }
+  .preview { display: flex; gap: 12px; align-items: center; background: var(--soft); border-radius: 16px; padding: 12px; }
+  .preview p { margin: 2px 0 0; }
+  .av { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; color: #fff; font-weight: 700; font-style: normal; flex: none; }
+  .said { margin: 10px 0 0; font-size: 20px; font-weight: 700; line-height: 1.2; }
+  .nudge { background: #F8E7D2; color: #6A3E12; border-radius: 14px; padding: 10px 12px; font-weight: 650; }
+  .facts { list-style: none; padding: 0; margin: 8px 0 12px; }
+  .facts li { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; margin-bottom: 8px; }
+  .facts p { margin: 4px 0 0; }
+  .search { display: flex; gap: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 4px 8px 4px 12px; margin: 8px 0; }
+  .search input { flex: 1; border: 0; background: transparent; min-height: 42px; outline: none; }
+  .search button { border: 0; background: transparent; color: var(--teal); font-weight: 700; cursor: pointer; }
+  .group { margin: 12px 0 4px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .app { width: 100%; display: flex; align-items: center; gap: 10px; text-align: left; border: 0; background: var(--card); border-bottom: 1px solid var(--line); padding: 8px 2px; cursor: pointer; }
+  .app .meta { flex: 1; }
+  .tick { width: 46px; height: 28px; border-radius: 99px; background: #D9D5CC; position: relative; flex: none; }
+  .tick::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .15s; }
+  .app.on .tick { background: var(--teal); }
+  .app.on .tick::after { transform: translateX(18px); }
+  .empty { color: var(--muted); }
+  .mini { border: 0; background: transparent; color: var(--teal); font-weight: 700; padding: 8px 0 0; cursor: pointer; }
+  .dock { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; padding: 22px 16px 16px; background: linear-gradient(transparent, var(--phone) 28%); }
+  .screen .btn { width: 100%; border: 0; background: var(--ink); color: #fff; min-height: 52px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; }
+  .screen .btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); margin-top: 8px; }
+  .screen .btn:disabled { opacity: .4; }
+  .screen .texty { width: 100%; border: 0; background: transparent; color: var(--teal); font-weight: 700; min-height: 40px; cursor: pointer; }
+  .count { text-align: center; color: var(--muted); font-size: 13px; margin: 0 0 6px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px; margin: 10px 0; }
+  .card p { margin: 4px 0 0; color: var(--muted); }
+  .scrim { position: absolute; inset: 0; z-index: 30; background: rgba(26, 25, 22, .48); display: flex; align-items: flex-end; }
+  .sheet { width: 100%; background: #fff; border-radius: 24px 24px 32px 32px; padding: 20px 16px 22px; }
+  .sheet h3 { margin: 0 0 8px; font-size: 24px; letter-spacing: -.02em; }
+  .sheet ul { margin: 8px 0 12px; padding-left: 18px; }
+  aside ul { margin: 0 0 18px; padding-left: 18px; line-height: 1.45; }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  @media (max-width: 1100px) {
+    .stage { grid-template-columns: 1fr; }
+    .rail, .device { position: relative; top: 0; }
+    .device { margin: 0 auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+<link rel="stylesheet" href="onboarding.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <p class="eyebrow">Onboarding B · maqueta navegable</p>
+    <h1>Tareas</h1>
+    <p class="lede">La bienvenida no se va. Debajo están las tres cosas que hay que hacer: oír un ejemplo, activar el permiso y marcar apps. Lo que falta se ve entero. Lo siguiente no se abre hasta terminar lo de antes.</p>
+  </div>
+  <nav class="siblings">
+    <a href="index.html">Interfaces</a>
+    <a href="onboarding.html">Onboarding</a>
+    <a href="onboarding-recorrido.html">Recorrido</a>
+    <a href="onboarding-tareas.html" aria-current="page">Tareas</a>
+    <a href="onboarding-voz.html">Voz</a>
+  </nav>
+</header>
+<div class="stage">
+  <nav class="rail" id="rail" aria-label="Pasos"></nav>
+  <div class="device"><div class="screen" id="screen"></div></div>
+  <aside>
+    <p class="eyebrow">Qué propone</p>
+    <ul>
+      <li>No hay carrusel. El trabajo cabe en una lista: ejemplo, permiso, apps.</li>
+      <li>Tocar una tarea cerrada explica por qué. No abre un permiso que todavía no se entiende.</li>
+      <li>La divulgación sigue siendo una pantalla propia, antes del ajuste de Android.</li>
+      <li>Volver sin activar deja la tarea 2 abierta y dice que no hay lectura.</li>
+      <li>Las apps se marcan en la misma lista, con el cupo de 3 a la vista. La cuarta no entra.</li>
+      <li>Al terminar, la lista se sustituye por el estado real: leyendo, y qué apps.</li>
+    </ul>
+    <p class="fine">Maqueta. No cambia la app. La marca de batería se nombra al cerrar, no como una cuarta tarea obligatoria.</p>
+  </aside>
+</div>
+<script src="onboarding.js"></script>
+<script>
+(function () {
+  "use strict";
+  var O = window.Onboarding;
+  var RAIL = [
+    { group: "Lista", id: "hola", label: "Bienvenida" },
+    { group: "Lista", id: "tras-ejemplo", label: "Tras el ejemplo" },
+    { group: "Permiso", id: "permiso", label: "Divulgación" },
+    { group: "Permiso", id: "sistema", label: "Ajuste de Android" },
+    { group: "Permiso", id: "sin-permiso", label: "Sin activar" },
+    { group: "Apps", id: "apps", label: "Marcar apps" },
+    { group: "Apps", id: "limite", label: "Límite de 3" },
+    { group: "Cierre", id: "listo", label: "Listo" }
+  ];
+  var PRESETS = {
+    hola: { step: "home", focus: "hear" },
+    "tras-ejemplo": { step: "home", heard: true, focus: "permit" },
+    permiso: { step: "ask", heard: true, focus: "permit" },
+    sistema: { step: "sistema", heard: true, focus: "permit" },
+    "sin-permiso": { step: "home", heard: true, focus: "permit", nudge: "Volviste sin activar. Sin el permiso no hay lectura." },
+    apps: { step: "home", heard: true, listener: true, focus: "apps" },
+    limite: { step: "home", heard: true, listener: true, focus: "apps", selected: ["wa", "tg", "gm"], limit: true, blocked: "Signal" },
+    listo: { step: "done", heard: true, listener: true, focus: "apps", selected: ["wa", "tg", "gm"] }
+  };
+  var state = blank();
+
+  function blank() {
+    return { step: "home", heard: false, listener: false, focus: "hear", selected: [], query: "", dialog: false, limit: false, pro: false, blocked: "", hint: "", nudge: "", rail: "hola" };
+  }
+  function carry(over) {
+    return Object.assign({
+      selected: state.selected.slice(),
+      listener: state.listener,
+      heard: state.heard,
+      focus: state.focus,
+      nudge: "",
+      query: ""
+    }, over || {});
+  }
+  function go(id, extra, mode) {
+    if (!PRESETS[id]) return;
+    state = Object.assign(blank(), PRESETS[id], extra || {});
+    state.selected = (state.selected || []).slice();
+    state.rail = id;
+    var url = "#" + id;
+    if (location.hash !== url) {
+      if (mode === "replace") history.replaceState({ id: id }, "", url);
+      else history.pushState({ id: id }, "", url);
+    }
+    render();
+  }
+  function toggle(id) {
+    var at = state.selected.indexOf(id);
+    if (at >= 0) {
+      state.selected.splice(at, 1);
+      state.limit = false;
+    } else if (state.selected.length >= 3) {
+      state.blocked = O.byId(id).name;
+      state.limit = true;
+      state.pro = false;
+    } else {
+      state.selected.push(id);
+      state.limit = false;
+    }
+    render();
+  }
+  function locked(which) {
+    if (which === "permit") return !state.heard;
+    if (which === "apps") return !state.listener;
+    return false;
+  }
+  function taskButton(which, num, title, detail, mode) {
+    var cls = mode === "locked" ? "wait" : mode === "done" ? "done" : "ready";
+    return '<li class="task ' + cls + '"><button type="button" data-act="task" data-id="' + which + '"><b>' +
+      (mode === "done" ? "✓" : num) + "</b><span><strong>" + title + "</strong><span>" + detail + "</span></span></button></li>";
+  }
+  function hearBody() {
+    var line = O.phrase("wa");
+    return '<div class="preview"><i class="av" style="background:#128C7E">W</i><div><strong>WhatsApp · ' + O.esc(line.who) + "</strong><p>" + O.esc(line.text) + "</p></div></div>" +
+      '<p class="said">«' + O.esc(line.spoken) + "»</p>" +
+      '<p class="fine">Un código como 482913 se dice «oculto». El texto no sale del teléfono.</p>' +
+      (state.heard ? '<button type="button" class="mini" data-act="close-task">Cerrar</button>' : '<button type="button" class="btn" data-act="heard">Ya lo entendí</button>');
+  }
+  function permitBody() {
+    if (state.listener) {
+      return "<p>El acceso ya está activo. Solo se leen las apps que marques.</p>" +
+        '<button type="button" class="mini" data-act="close-task">Cerrar</button>';
+    }
+    return "<p>Android lo llama acceso a las notificaciones. Sin eso, no llego a leer nada.</p>" +
+      '<button type="button" class="btn" data-act="open-ask">Activar lectura</button>';
+  }
+  function appsBody() {
+    return "<p>Por defecto, silencio. Gratis: 3 apps, sin límite de lecturas.</p>" +
+      '<div class="search"><input id="q" type="search" placeholder="Buscar app" value="' + O.esc(state.query) + '" autocomplete="off" aria-label="Buscar app">' +
+      (state.query ? '<button type="button" data-act="clear">Borrar</button>' : "") + "</div>" +
+      '<div id="applist">' + O.rows(state.selected, state.query) + "</div>";
+  }
+  function openTask(which, num, title, detail, inner) {
+    return '<li class="task open"><div class="task-h"><b>' + num + "</b><span><strong>" + title + "</strong><span>" + detail + "</span></span></div><div class=\"task-b\">" + inner + "</div></li>";
+  }
+  function checklist() {
+    var hear = state.focus === "hear"
+      ? openTask("hear", "1", "Cómo suena", "Un aviso, y la frase que se oye.", hearBody())
+      : taskButton("hear", "1", "Cómo suena", state.heard ? "Ya viste el ejemplo." : "Un aviso, y la frase que se oye.", state.heard ? "done" : "locked");
+    var permit = state.focus === "permit" && state.heard
+      ? openTask("permit", "2", "Activar el permiso", "Android tiene que permitirlo.", permitBody())
+      : taskButton("permit", "2", "Activar el permiso", state.listener ? "Lectura activa." : "Se abre después del ejemplo.", state.listener ? "done" : (state.heard ? "ready" : "locked"));
+    var apps = state.focus === "apps" && state.listener
+      ? openTask("apps", "3", "Marcar las apps", "Lo que quieres oír.", appsBody())
+      : taskButton("apps", "3", "Marcar las apps", state.listener ? "Toca para marcar." : "Por defecto, silencio.", state.listener ? "ready" : "locked");
+    return "<h2>Hola.</h2><p class=\"sub\">Tres cosas y ya te leo. El texto no sale del teléfono.</p>" +
+      (state.nudge ? '<p class="nudge" role="status">' + O.esc(state.nudge) + "</p>" : "") +
+      '<ol class="tasks">' + hear + permit + apps + "</ol>" +
+      '<p class="fine">Luego la app tiene Inicio, Apps y Lectura. Horario, auriculares y filtros son de Pro.</p>';
+  }
+  function ask() {
+    return '<button type="button" class="back" data-act="back-list">Atrás</button>' +
+      '<p class="eyebrow">2 de 3</p><h2>Hace falta un permiso.</h2>' +
+      '<p class="sub">TeLoLeo leerá notificaciones en voz alta.</p>' +
+      '<ul class="facts">' +
+      "<li><strong>Qué se lee</strong><p>El título y el texto de las apps que marques, con la voz del teléfono.</p></li>" +
+      "<li><strong>Dónde</strong><p>En este teléfono. El texto no se envía, no se guarda y no se vende.</p></li>" +
+      "<li><strong>Cómo se apaga</strong><p>Quitando apps, o desactivando TeLoLeo en el acceso a notificaciones.</p></li>" +
+      "<li><strong>Códigos</strong><p>Un código de un solo uso se dice «oculto», salvo que lo cambies.</p></li>" +
+      "</ul>" +
+      '<p class="fine">El siguiente paso es el ajuste de Android, no una pantalla de TeLoLeo.</p>';
+  }
+  function done() {
+    var names = O.listNames(state.selected);
+    var line = state.selected[0] ? O.phrase(state.selected[0]) : null;
+    return "<h2>Ya te leo.</h2>" +
+      '<p class="sub">' + (names ? "Solo " + O.esc(names) + "." : "Sin apps marcadas, sigo en silencio.") + "</p>" +
+      (line ? '<div class="card"><strong>Así sonaría</strong><p>' + O.esc(line.spoken) + "</p></div>" : "") +
+      '<div class="card"><strong>' + (state.listener ? "La lectura está activa." : "Falta el permiso.") + "</strong><p>" +
+      (state.listener ? "Para apagarla, desactiva TeLoLeo en el acceso a notificaciones." : "Las apps quedan guardadas hasta que lo actives.") + "</p></div>" +
+      '<p class="fine">Si el teléfono duerme las apps, la lectura se corta. En Inicio está la guía según la marca.</p>' +
+      '<button type="button" class="texty" data-act="back-apps">Cambiar apps</button>';
+  }
+  function foot() {
+    if (state.step === "ask") {
+      return '<div class="dock"><button type="button" class="btn" data-act="open-system">Entendido, abrir ajustes</button>' +
+        '<button type="button" class="texty" data-act="back-list">Ahora no</button></div>';
+    }
+    if (state.step === "home" && state.focus === "apps" && state.listener) {
+      var ready = state.selected.length > 0;
+      return '<div class="dock"><p class="count" id="count">Marcadas: ' + state.selected.length + " de 3.</p>" +
+        '<button type="button" class="btn" data-act="finish"' + (ready ? "" : " disabled") + ">" +
+        (ready ? "Empezar a leer" : "Marca al menos una") + "</button></div>";
+    }
+    return "";
+  }
+  function frame(body, footHtml) {
+    return '<div class="statusbar"><span>9:41</span><span>5G</span></div><div class="viewport' + (footHtml ? " hasdock" : "") + '">' + body + "</div>" + (footHtml || "");
+  }
+  function view() {
+    if (state.step === "sistema") return O.system({ dialog: state.dialog, hint: state.hint });
+    var inner = state.step === "ask" ? ask() : state.step === "done" ? done() : checklist();
+    return frame(inner, foot()) + (state.limit ? O.limit(state.blocked, state.pro) : "");
+  }
+  function paintRail() {
+    var html = "";
+    var last = "";
+    RAIL.forEach(function (item) {
+      if (item.group !== last) { html += "<h3>" + item.group + "</h3>"; last = item.group; }
+      var on = item.id === state.rail;
+      html += '<button type="button" data-rail="' + item.id + '"' + (on ? ' class="on" aria-current="true"' : "") + ">" + item.label + "</button>";
+    });
+    document.getElementById("rail").innerHTML = html;
+  }
+  var prev = "";
+  function render() {
+    var keep = prev === state.step + state.focus;
+    var sc = document.querySelector(".viewport");
+    var top = keep && sc ? sc.scrollTop : 0;
+    document.getElementById("screen").innerHTML = view();
+    prev = state.step + state.focus;
+    var next = document.querySelector(".viewport");
+    if (keep && next) next.scrollTop = top;
+    paintRail();
+  }
+  function furthest() {
+    if (!state.heard) return "hear";
+    if (!state.listener) return "permit";
+    return "apps";
+  }
+  document.getElementById("rail").addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-rail]");
+    if (btn) go(btn.getAttribute("data-rail"));
+  });
+  document.getElementById("screen").addEventListener("input", function (e) {
+    if (e.target.id !== "q") return;
+    state.query = e.target.value;
+    var list = document.getElementById("applist");
+    if (list) list.innerHTML = O.rows(state.selected, state.query);
+    var count = document.getElementById("count");
+    if (count) count.textContent = "Marcadas: " + state.selected.length + " de 3.";
+  });
+  document.getElementById("screen").addEventListener("click", function (e) {
+    var el = e.target.closest("[data-act]");
+    if (!el) return;
+    var act = el.getAttribute("data-act");
+    var id = el.getAttribute("data-id");
+    if (act === "app") { toggle(id); return; }
+    if (act === "clear") { state.query = ""; render(); return; }
+    if (act === "limit-close") { state.limit = false; state.pro = false; render(); return; }
+    if (act === "limit-pro") { state.pro = true; render(); return; }
+    if (act === "switch") { state.dialog = true; state.hint = ""; render(); return; }
+    if (act === "deny") { state.dialog = false; state.hint = "No se concedió. Sin este permiso, TeLoLeo no lee nada."; render(); return; }
+    if (act === "allow") { go("apps", carry({ listener: true, focus: "apps", nudge: "" }), "replace"); return; }
+    if (act === "system-back") { go("sin-permiso", carry({ listener: false, focus: "permit" })); return; }
+    if (act === "task") {
+      if (locked(id)) {
+        state.nudge = !state.heard
+          ? "Primero mira cómo suena un aviso."
+          : "Primero activa el permiso. Si no, las apps quedan en silencio.";
+        render();
+        return;
+      }
+      state.nudge = "";
+      state.focus = id;
+      render();
+      return;
+    }
+    if (act === "heard") { go("tras-ejemplo", carry({ heard: true, focus: "permit" })); return; }
+    if (act === "close-task") { state.focus = furthest(); state.nudge = ""; render(); return; }
+    if (act === "open-ask") { go("permiso", carry({ heard: true, focus: "permit" })); return; }
+    if (act === "open-system") { go("sistema", carry({ heard: true })); return; }
+    if (act === "back-list") { go(state.heard ? "tras-ejemplo" : "hola", carry({ focus: state.listener ? "apps" : "permit" })); return; }
+    if (act === "finish") { if (state.selected.length) go("listo", carry({ listener: true })); return; }
+    if (act === "back-apps") { go("apps", carry({ listener: true, focus: "apps" })); }
+  });
+  window.addEventListener("popstate", function () {
+    var id = (location.hash || "#hola").slice(1);
+    if (PRESETS[id]) go(id, null, "replace");
+  });
+  var start = (location.hash || "#hola").slice(1);
+  go(PRESETS[start] ? start : "hola", null, "replace");
+})();
+</script>
+</body>
+</html>

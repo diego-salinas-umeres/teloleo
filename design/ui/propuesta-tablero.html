@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TeLoLeo — Propuesta Tablero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,640&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --studio: #E7DCCB;
+    --ink: #1C1714;
+    --muted: #6F645A;
+    --phone: #F6F0E6;
+    --card: #FFFBF5;
+    --line: #E5D8C7;
+    --teal: #0C6B62;
+    --soft: #DDF1EC;
+    --coral: #C4482A;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--studio); color: var(--ink); font-family: Outfit, "Segoe UI", sans-serif; }
+  button, input, select, textarea { font: inherit; }
+  .top { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; padding: 28px 28px 8px; }
+  .eyebrow { margin: 0 0 6px; letter-spacing: .16em; text-transform: uppercase; font-size: 12px; font-weight: 700; color: var(--muted); }
+  h1 { margin: 0; font-family: Fraunces, Georgia, serif; font-size: 42px; font-weight: 560; letter-spacing: -.03em; }
+  .lede { max-width: 42rem; margin: 8px 0 0; line-height: 1.45; }
+  .siblings { display: flex; gap: 8px; flex-wrap: wrap; }
+  .siblings a { color: inherit; text-decoration: none; border: 1px solid rgba(28,23,20,.18); border-radius: 999px; padding: 8px 12px; }
+  .siblings a[aria-current="page"] { background: var(--ink); color: #fff; border-color: transparent; }
+  .stage { display: grid; grid-template-columns: 220px 410px minmax(260px, 1fr); gap: 28px; align-items: start; padding: 12px 28px 48px; }
+  .rail, .device { position: sticky; top: 12px; }
+  .rail { max-height: calc(100vh - 24px); overflow: auto; }
+  .rail h3 { margin: 16px 0 6px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .rail button { display: block; width: 100%; text-align: left; border: 0; background: transparent; border-radius: 10px; padding: 7px 10px; cursor: pointer; color: inherit; }
+  .rail button.on { background: #fff; font-weight: 700; }
+  .device { width: 390px; height: 800px; background: #161311; border-radius: 46px; padding: 10px; box-shadow: 0 30px 70px rgba(60, 40, 12, .22); }
+  .screen { height: 100%; background: var(--phone); color: var(--ink); border-radius: 36px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+  .statusbar { flex: none; display: flex; justify-content: space-between; padding: 12px 22px 0; font-size: 12px; font-weight: 700; }
+  .viewport { flex: 1; min-height: 0; overflow: auto; padding: 8px 18px 96px; }
+  .screen button, .screen input, .screen select, .screen textarea { font: inherit; color: inherit; }
+  .mark { font-family: Fraunces, Georgia, serif; font-size: 22px; }
+  .head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .pill, .texty, .back, .tpl { border: 0; background: transparent; cursor: pointer; }
+  .pill { background: var(--ink); color: #fff; border-radius: 999px; padding: 7px 12px; font-size: 13px; font-weight: 650; }
+  .hero h2 { font-family: Fraunces, Georgia, serif; font-size: 52px; line-height: .95; font-weight: 560; letter-spacing: -.03em; margin: 12px 0 8px; }
+  .hero .sub, .fine, .meta small, .note, .kicker { color: var(--muted); }
+  .sub { margin: 0 0 14px; font-size: 16px; }
+  .card, .opt, .battery, .saying { background: var(--card); border: 1px solid var(--line); border-radius: 22px; }
+  .card { padding: 16px; margin: 12px 0; }
+  .card strong { display: block; margin-bottom: 4px; }
+  .saying { display: flex; flex-direction: column; gap: 10px; padding: 14px; margin-top: 12px; background: #1C1714; color: #fff; border: 0; }
+  .saying p { margin: 4px 0 0; }
+  .rowbtns, .times, .add, .actions { display: flex; gap: 8px; }
+  .rowbtns { margin-top: 12px; }
+  .btn { width: 100%; border: 0; background: var(--teal); color: #fff; min-height: 48px; border-radius: 14px; font-weight: 650; cursor: pointer; padding: 0 12px; }
+  .rowbtns .btn { width: auto; flex: 1; }
+  .btn.ghost { background: transparent; color: var(--teal); }
+  .btn.warn { background: var(--coral); }
+  .btn:disabled { opacity: .45; cursor: default; }
+  .set, .opt-h, .app-hit, .cell { display: flex; align-items: center; gap: 12px; }
+  .set { padding: 4px 2px 8px; }
+  .set div { flex: 1; }
+  .switch { width: 46px; height: 28px; border-radius: 99px; background: #DDD4C8; position: relative; flex: none; }
+  .switch i { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; display: block; transition: transform .18s; }
+  .switch.on { background: var(--teal); }
+  .switch.on i { transform: translateX(18px); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .chips span, .chip { background: var(--soft); color: var(--teal); border-radius: 999px; padding: 5px 10px; font-size: 13px; font-weight: 650; }
+  .chip { border: 0; cursor: pointer; }
+  .battery { width: 100%; text-align: left; padding: 14px 16px; margin-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; }
+  .battery span { flex: 1; line-height: 1.3; }
+  .battery strong { white-space: nowrap; }
+  .links { display: flex; gap: 14px; margin: 16px 0; }
+  .texty { color: var(--teal); font-weight: 700; padding: 0; cursor: pointer; }
+  .search { display: flex; gap: 8px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 4px 8px 4px 14px; }
+  .search input { flex: 1; border: 0; background: transparent; min-height: 42px; outline: none; }
+  .search button { border: 0; background: transparent; color: var(--teal); font-weight: 700; cursor: pointer; }
+  .count { color: var(--muted); font-size: 14px; }
+  .viewport h3 { margin: 18px 0 6px; font-family: Fraunces, Georgia, serif; font-size: 28px; font-weight: 560; }
+  .app { display: flex; align-items: center; gap: 6px; }
+  .app-hit { flex: 1; min-height: 62px; cursor: pointer; }
+  .av { width: 40px; height: 40px; border-radius: 14px; display: grid; place-items: center; color: #fff; font-weight: 700; font-style: normal; flex: none; }
+  .meta { flex: 1; min-width: 0; }
+  .meta strong, .meta small { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tpl { color: var(--teal); font-weight: 700; background: var(--soft); border-radius: 999px; padding: 6px 10px; }
+  .empty { padding: 8px 0; }
+  .skel { height: 56px; border-radius: 16px; margin: 8px 0; background: linear-gradient(90deg, #EFE6D8, #F7F1E8, #EFE6D8); background-size: 200% 100%; animation: sheen 1.2s infinite; }
+  @keyframes sheen { to { background-position: -200% 0; } }
+  .opt { padding: 14px; margin: 8px 0; width: 100%; text-align: left; cursor: pointer; }
+  .opt-h { justify-content: space-between; }
+  .opt p { margin: 6px 0; }
+  .lock { margin-left: auto; color: var(--coral); font-weight: 700; }
+  .times { margin-top: 10px; }
+  .time { flex: 1; display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
+  select, textarea, .add input { width: 100%; border: 1px solid var(--line); background: #fff; border-radius: 12px; padding: 10px 12px; }
+  textarea { min-height: 88px; resize: vertical; }
+  input[type="range"] { width: 100%; accent-color: var(--teal); }
+  .add input { flex: 1; }
+  .add button { border: 0; background: var(--teal); color: #fff; border-radius: 12px; padding: 0 14px; font-weight: 700; cursor: pointer; }
+  .tabbar { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; height: 78px; border-radius: 0 0 36px 36px; background: var(--phone); display: flex; padding: 8px 16px 16px; gap: 4px; box-shadow: 0 -18px 16px var(--phone); }
+  .tabbar button { flex: 1; border: 0; background: transparent; border-radius: 16px; font-weight: 700; cursor: pointer; }
+  .tabbar button.on { background: var(--teal); color: #fff; }
+  .overlay { position: absolute; inset: 0; z-index: 20; display: flex; align-items: flex-end; }
+  .shade { position: absolute; inset: 0; background: rgba(28, 23, 20, .46); }
+  .panel { position: relative; z-index: 1; width: 100%; max-height: 88%; overflow: auto; background: var(--card); border-radius: 28px 28px 34px 34px; padding: 8px 20px 24px; }
+  .handle { width: 36px; height: 4px; border-radius: 4px; background: var(--line); margin: 6px auto 12px; }
+  .panel h2 { font-family: Fraunces, Georgia, serif; font-size: 30px; line-height: 1.05; font-weight: 560; margin: 0 0 12px; }
+  .panel p { line-height: 1.45; }
+  .steps { list-style: none; padding: 0; margin: 0 0 12px; display: flex; flex-direction: column; gap: 12px; }
+  .steps li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; }
+  .steps b { width: 28px; height: 28px; border-radius: 50%; background: var(--soft); color: var(--teal); display: grid; place-items: center; font-size: 13px; }
+  .actions { flex-direction: column; margin-top: 14px; }
+  .preview { background: var(--soft); color: var(--ink); border-radius: 14px; padding: 12px; }
+  .back { font-weight: 700; color: var(--teal); padding: 4px 0 8px; cursor: pointer; }
+  .prohero h2, .doc h2 { font-family: Fraunces, Georgia, serif; font-size: 44px; line-height: .95; font-weight: 560; margin: 6px 0 10px; }
+  .feature { display: grid; grid-template-columns: 22px 1fr; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .feature b { color: var(--teal); }
+  .price { margin-top: 16px; }
+  .toast { position: absolute; z-index: 40; left: 16px; right: 16px; top: 46px; background: #1C1714; color: #fff; border-radius: 14px; padding: 12px 14px; }
+  aside ul { margin: 0 0 18px; padding-left: 18px; line-height: 1.45; }
+  .brands { display: flex; flex-wrap: wrap; gap: 6px; }
+  .brands button { border-radius: 999px; border: 1px solid rgba(28,23,20,.18); background: transparent; padding: 6px 10px; cursor: pointer; }
+  .brands button.on { background: var(--ink); color: #fff; }
+  #now { font-weight: 700; }
+  @media (max-width: 1100px) {
+    .stage { grid-template-columns: 1fr; }
+    .rail, .device { position: relative; top: 0; }
+    .device { margin: 0 auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div>
+    <p class="eyebrow">Propuesta A · maqueta navegable</p>
+    <h1>Tablero</h1>
+    <p class="lede">El inicio responde si está leyendo. Las apps y los ajustes de la voz viven en pestañas, así la lista no entierra el estado ni la batería.</p>
+  </div>
+  <nav class="siblings">
+    <a href="index.html">Índice</a>
+    <a href="propuesta-tablero.html" aria-current="page">Tablero</a>
+    <a href="propuesta-lista.html">Lista</a>
+    <a href="propuesta-voz.html">Voz</a>
+  </nav>
+</header>
+<div class="stage">
+  <nav class="rail" id="rail" aria-label="Vistas"></nav>
+  <div class="device"><div class="screen" id="screen"></div></div>
+  <aside>
+    <p class="eyebrow">Qué arregla</p>
+    <ul>
+      <li>Separa estado, apps y lectura. Hoy están en el mismo scroll.</li>
+      <li>Callar dura 2 minutos y solo se impone cuando hay una frase en curso.</li>
+      <li>La divulgación aparece antes del primer permiso, no cada vez que se abre el ajuste.</li>
+      <li>Lo bloqueado abre Pro. Hoy varios interruptores están muertos.</li>
+      <li>Sin Pro se leen 3 apps. La cuarta no entra.</li>
+      <li>La guía de batería sale del final de la lista.</li>
+    </ul>
+    <p class="eyebrow">Guía de batería</p>
+    <div class="brands" id="brands"></div>
+    <p class="fine">La marca no se elige en la app: la detecta el teléfono. Estos botones solo sirven para leer cada texto. US$ 4,99 es un precio de ejemplo.</p>
+    <p id="now"></p>
+  </aside>
+</div>
+<script src="shared.js"></script>
+<script>
+TeLoLeo.boot({
+  overlay: "sheet",
+  batteryView: "home",
+  groups: TeLoLeo.groups(function (item) { return item; }),
+  renderPage: function (v) {
+    var s = v.state;
+    if (s.view === "sistema") return v.systemPage();
+    if (s.view === "privacy") return privacy(v);
+    if (s.view === "pro") return pro(v);
+    if (s.view === "lectura") return lectura(v);
+    if (s.view === "apps") return apps(v);
+    return home(v);
+  }
+});
+
+function tabs(v, id) {
+  function item(view, label) {
+    return '<button type="button" data-act="goto" data-id="' + view + '"' + (id === view ? ' class="on"' : "") + ">" + label + "</button>";
+  }
+  return '<nav class="tabbar">' + item("home", "Inicio") + item("apps", "Apps") + item("lectura", "Lectura") + "</nav>";
+}
+
+function home(v) {
+  var s = v.state;
+  var c = v.copy;
+  var on = s.listener;
+  var word = s.speakingNow ? "Diciendo" : (on ? "Te lo leo" : "En silencio");
+  var names = v.joinNames(v.speakingNames());
+  var detail = on ? c.listenerOn + " " + names + "." : c.listenerOff;
+  var extra = on ? c.turnOff : c.listenerOffDetail;
+  var saying = s.speakingNow
+    ? '<div class="saying"><div><strong>WhatsApp · Ana</strong><p>' + v.esc(v.livePhrase()) + "</p></div>" +
+      '<button type="button" class="btn warn" data-act="silence">' + c.silence + "</button></div>"
+    : "";
+  var chips = v.rules().map(function (rule) { return "<span>" + v.esc(rule) + "</span>"; }).join("");
+  return '<div class="viewport"><div class="hero">' +
+    '<div class="head"><span class="mark">TeLoLeo</span><button type="button" class="pill" data-act="gopro">' + (s.pro ? "Pro activo" : "Gratis · 3 apps") + "</button></div>" +
+    "<h2>" + word + "</h2><p class=\"sub\">" + c.subtitle + "</p>" +
+    '<section class="card"><strong>' + v.esc(detail) + "</strong><p class=\"fine\">" + extra + "</p>" + saying +
+      '<div class="rowbtns"><button type="button" class="btn" data-act="listener">' + (on ? c.manage : c.enable) + "</button>" +
+      (on && !s.speakingNow ? '<button type="button" class="btn ghost" data-act="silence">' + c.silence + "</button>" : "") +
+      "</div></section>" +
+    (chips ? '<div class="chips">' + chips + "</div>" : "") +
+    '<div class="set" role="button" tabindex="0" data-act="redact"><div><strong>' + c.redact + "</strong><p class=\"fine\">" + c.redactDetail + "</p></div>" + v.sw(s.redact) + "</div>" +
+    '<p class="count">' + v.countLine() + "</p><p class=\"fine\">" + v.quotaNote() + "</p>" +
+    '<button type="button" class="btn" data-act="goto" data-id="apps" style="margin-top:12px">Elegir apps</button>' +
+    '<button type="button" class="battery" data-act="battery"><span>' + c.battery + "</span><strong>" + v.esc(v.brand().name) + "</strong></button>" +
+    '<div class="links"><button type="button" class="texty" data-act="privacy">Privacidad</button><button type="button" class="texty" data-act="gopro">Pro</button></div>' +
+    "</div></div>" + tabs(v, "home");
+}
+
+function apps(v) {
+  return '<div class="viewport"><div class="head"><span class="mark">Apps</span><button type="button" class="texty" data-act="privacy">Privacidad</button></div>' +
+    search(v) + '<p class="count">' + v.countLine() + "</p><p class=\"fine\">" + v.quotaNote() + "</p>" +
+    sections(v) + "</div>" + tabs(v, "apps");
+}
+
+function search(v) {
+  var s = v.state;
+  return '<div class="search"><input id="q" type="search" placeholder="' + v.copy.search + '" value="' + v.esc(s.query) + '" autocomplete="off">' +
+    (s.query ? '<button type="button" data-act="clear-search" aria-label="' + v.copy.clear + '">Borrar</button>' : "") + "</div>";
+}
+
+function sections(v) {
+  var s = v.state;
+  if (s.loading) return '<p class="empty">' + v.copy.loading + '</p><div class="skel"></div><div class="skel"></div><div class="skel"></div>';
+  var sel = v.selectedVisible();
+  var oth = v.othersVisible();
+  var html = "";
+  if (!s.query && s.selected.length === 0) html += '<p class="empty">' + v.copy.silenceDefault + "</p>";
+  if (sel.length) html += "<h3>" + v.copy.sectionOn + "</h3>" + sel.map(function (app) { return appRow(v, app); }).join("");
+  if (!s.query || oth.length) html += "<h3>" + v.copy.sectionOff + "</h3>" + oth.map(function (app) { return appRow(v, app); }).join("");
+  if (s.query && !sel.length && !oth.length) html += '<p class="empty">' + v.copy.noHits + "</p>";
+  return html;
+}
+
+function appRow(v, app) {
+  var sub = app.extra ? v.copy.saved : (app.template && v.state.pro ? v.copy.ownPhrase : "");
+  return '<div class="app"><div class="app-hit" role="button" tabindex="0" data-act="toggle" data-id="' + app.id + '">' +
+    '<i class="av" style="background:' + app.color + '">' + v.esc(app.name.slice(0, 1).toUpperCase()) + "</i>" +
+    '<span class="meta"><strong>' + v.esc(app.name) + "</strong>" + (sub ? "<small>" + v.esc(sub) + "</small>" : "") + "</span>" +
+    v.sw(app.selected) + "</div>" +
+    (v.state.pro && app.selected ? '<button type="button" class="tpl" data-act="template" data-id="' + app.id + '">' + v.copy.template + "</button>" : "") +
+    "</div>";
+}
+
+function lectura(v) {
+  var s = v.state;
+  var c = v.copy;
+  var banner = s.pro ? "" : '<p class="fine">' + c.readingNote + '</p><button type="button" class="texty" data-act="gopro">' + c.withPro + "</button>";
+  return '<div class="viewport"><div class="head"><span class="mark">' + c.reading + "</span></div>" + banner +
+    quiet(v) + lockRow(v, "headphones", c.headphones, "") + lockRow(v, "shake", c.shake, c.shakeDetail) +
+    slider(v, "rate", c.rate, s.rate, 0.7, 1.5) + slider(v, "vol", c.volume, s.volume, 0.3, 1) +
+    templateBlock(v) + filters(v) + "</div>" + tabs(v, "lectura");
+}
+
+function lockRow(v, act, title, detail) {
+  if (!v.state.pro) return '<button type="button" class="opt" data-act="gopro"><span class="opt-h"><strong>' + title + "</strong><span class=\"lock\">Pro</span></span>" + (detail ? "<p class=\"fine\">" + detail + "</p>" : "") + "</button>";
+  var on = act === "headphones" ? v.state.headphones : v.state.shake;
+  return '<div class="opt"><div class="opt-h" role="button" tabindex="0" data-act="' + act + '"><div><strong>' + title + "</strong>" + (detail ? "<p class=\"fine\">" + detail + "</p>" : "") + "</div>" + v.sw(on) + "</div></div>";
+}
+
+function quiet(v) {
+  var s = v.state;
+  if (!s.pro) return '<button type="button" class="opt" data-act="gopro"><span class="opt-h"><strong>' + v.copy.quiet + '</strong><span class="lock">Pro</span></span></button>';
+  return '<div class="opt"><div class="opt-h" role="button" tabindex="0" data-act="quiet"><strong>' + v.copy.quiet + "</strong>" + v.sw(s.quiet) + "</div>" +
+    (s.quiet ? '<div class="times">' + v.hours(s.quietFrom, "quiet-from") + v.hours(s.quietTo, "quiet-to") + "</div>" : "") + "</div>";
+}
+
+function slider(v, id, label, value, min, max) {
+  if (!v.state.pro) return '<button type="button" class="opt" data-act="gopro"><span class="opt-h"><strong>' + label + '</strong><span class="lock">Pro</span></span></button>';
+  return '<div class="opt"><strong>' + label + ' <span id="' + id + '-val">' + v.fmt(value) + "</span></strong>" +
+    '<input id="' + id + '" type="range" min="' + min + '" max="' + max + '" step="0.1" value="' + value + '"></div>';
+}
+
+function templateBlock(v) {
+  if (!v.state.pro) return '<button type="button" class="opt" data-act="gopro"><span class="opt-h"><strong>' + v.copy.phraseTitle + '</strong><span class="lock">Pro</span></span></button>';
+  var current = v.state.template.trim() ? v.phrase(v.state.template) : "Aplicación, título y texto.";
+  return '<div class="opt"><strong>' + v.copy.phraseTitle + "</strong><p>" + v.esc(current) + '</p><button type="button" class="btn ghost" data-act="template">' + v.copy.template + "</button></div>";
+}
+
+function filters(v) {
+  var c = v.copy;
+  if (!v.state.pro) return '<button type="button" class="opt" data-act="gopro"><span class="opt-h"><strong>' + c.filters + '</strong><span class="lock">Pro</span></span><p class="fine">' + c.filtersDetail + "</p></button>";
+  var chips = v.state.filters.map(function (word, i) {
+    return '<button type="button" class="chip" data-act="unfilter" data-i="' + i + '">' + v.esc(word) + " ×</button>";
+  }).join("");
+  return '<div class="opt"><strong>' + c.filters + "</strong><p class=\"fine\">" + c.filtersDetail + '</p><div class="chips">' + chips + '</div><div class="add"><input id="filter" type="text" placeholder="' + c.filtersHint + '"><button type="button" data-act="addfilter">' + c.add + "</button></div></div>";
+}
+
+function pro(v) {
+  var o = v.offerModel();
+  var features = v.features.map(function (row) {
+    return '<div class="feature"><b>✓</b><div><strong>' + row[0] + "</strong><p class=\"fine\">" + row[1] + "</p></div></div>";
+  }).join("");
+  var buy = o.showBuy ? '<button type="button" class="btn" data-act="buy"' + (o.disabled ? " disabled" : "") + ">" + v.esc(o.label) + "</button>" : "";
+  return '<div class="viewport prohero"><button type="button" class="back" data-act="back">← ' + v.copy.back + "</button><h2>" + v.copy.proTitle + "</h2><p>" + v.copy.proIntro + "</p>" +
+    (o.active ? '<p class="card"><strong>' + v.copy.proActive + "</strong></p>" : "") +
+    (o.pending ? "<p>" + v.copy.proPending + "</p>" : "") +
+    (o.notice ? "<p>" + v.esc(o.notice) + "</p>" : "") +
+    features + '<p class="fine" style="margin-top:12px">' + v.copy.proFree + "</p>" +
+    '<div class="actions price">' + buy + '<button type="button" class="btn ghost" data-act="restore">' + v.copy.restore + "</button></div></div>";
+}
+
+function privacy(v) {
+  var blocks = v.privacy.map(function (row) {
+    return "<h3>" + row[0] + "</h3><p>" + row[1] + "</p>";
+  }).join("");
+  return '<div class="viewport doc"><button type="button" class="back" data-act="back">← ' + v.copy.back + "</button><h2>" + v.copy.privacyTitle + "</h2><p>" + v.copy.privacyIntro + "</p>" + blocks + '<p class="fine" style="margin-top:16px">' + v.copy.privacyUrl + "</p></div>";
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+Correo de contacto de la ficha
+teloleoapp@gmail.com
+
+Título
+TeLoLeo
+
+Descripción breve
+Avisos en voz alta de las apps que eliges. El texto no sale del teléfono.
+
+Descripción completa
+TeLoLeo lee en voz alta las notificaciones de las apps que tú eliges. Lo demás se queda en silencio.
+
+El texto no sale del teléfono. Se dice con la voz del sistema: no se envía, no se guarda como historial y no se vende. No hay servidor, no hay cuenta y no hay anuncios.
+
+Qué hace
+• Tú eliges las apps. El resto ni se mira.
+• Un aviso se dice así: aplicación, quién escribe y el texto.
+• Un código de un solo uso se dice «oculto». Puedes cambiarlo.
+• Puedes desactivar la lectura desde Inicio. El permiso sigue concedido hasta que lo quites en los ajustes de Android.
+
+Gratis
+Tres apps, sin límite de lecturas.
+
+Pro, un solo pago
+No es una suscripción. El producto es teloleo_pro y lo cobra Google Play en el teléfono. Desbloquea apps ilimitadas, horario de silencio, solo auriculares o Bluetooth, plantilla de la frase, filtro de palabras, agitar para callar, y velocidad y volumen propios.
+
+Para leer los avisos, Android pide el acceso a las notificaciones. TeLoLeo explica qué se lee antes de abrir ese ajuste.

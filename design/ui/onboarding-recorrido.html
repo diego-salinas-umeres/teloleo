@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TeLoLeo — Onboarding Recorrido</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,640&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --studio: #E7DCCB;
+    --ink: #1C1714;
+    --muted: #6F645A;
+    --phone: #F6F0E6;
+    --card: #FFFBF5;
+    --line: #E5D8C7;
+    --teal: #0C6B62;
+    --soft: #DDF1EC;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--studio); color: var(--ink); font-family: Outfit, "Segoe UI", sans-serif; }
+  button, input { font: inherit; }
+  .top { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; padding: 28px 28px 8px; }
+  .eyebrow { margin: 0 0 6px; letter-spacing: .16em; text-transform: uppercase; font-size: 12px; font-weight: 700; color: var(--muted); }
+  h1 { margin: 0; font-family: Fraunces, Georgia, serif; font-size: 42px; font-weight: 560; letter-spacing: -.03em; }
+  .lede { max-width: 42rem; margin: 8px 0 0; line-height: 1.45; }
+  .siblings { display: flex; gap: 8px; flex-wrap: wrap; }
+  .siblings a { color: inherit; text-decoration: none; border: 1px solid rgba(28,23,20,.18); border-radius: 999px; padding: 8px 12px; }
+  .siblings a[aria-current="page"] { background: var(--ink); color: #fff; border-color: transparent; }
+  .stage { display: grid; grid-template-columns: 220px 410px minmax(260px, 1fr); gap: 28px; align-items: start; padding: 12px 28px 48px; }
+  .rail, .device { position: sticky; top: 12px; }
+  .rail { max-height: calc(100vh - 24px); overflow: auto; }
+  .rail h3 { margin: 16px 0 6px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .rail button { display: block; width: 100%; text-align: left; border: 0; background: transparent; border-radius: 10px; padding: 7px 10px; cursor: pointer; color: inherit; }
+  .rail button.on { background: #fff; font-weight: 700; }
+  .device { width: 390px; height: 800px; background: #161311; border-radius: 46px; padding: 10px; box-shadow: 0 30px 70px rgba(60, 40, 12, .22); }
+  .screen { height: 100%; background: var(--phone); color: var(--ink); border-radius: 36px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+  .statusbar { flex: none; display: flex; justify-content: space-between; padding: 12px 22px 0; font-size: 12px; font-weight: 700; }
+  .viewport { flex: 1; min-height: 0; overflow: auto; padding: 8px 18px 28px; }
+  .viewport.hasdock { padding-bottom: 128px; }
+  .screen button, .screen input { font: inherit; color: inherit; }
+  .back { border: 0; background: transparent; color: var(--teal); font-weight: 700; padding: 0 0 8px; cursor: pointer; }
+  .viewport h2 { font-family: Fraunces, Georgia, serif; font-size: 44px; line-height: .95; font-weight: 560; letter-spacing: -.03em; margin: 8px 0; }
+  .sub, .fine, .meta small { color: var(--muted); line-height: 1.4; }
+  .sub { margin: 0 0 14px; font-size: 17px; }
+  .bar { height: 4px; background: var(--line); border-radius: 99px; margin: 0 0 16px; }
+  .bar i { display: block; height: 100%; background: var(--teal); border-radius: 99px; }
+  .preview, .said, .card, .facts, .beats { background: var(--card); border: 1px solid var(--line); border-radius: 22px; }
+  .preview { display: flex; align-items: center; gap: 12px; padding: 14px; margin: 8px 0; }
+  .preview p { margin: 2px 0 0; }
+  .av { width: 46px; height: 46px; border-radius: 16px; display: grid; place-items: center; color: #fff; font-weight: 700; font-style: normal; flex: none; }
+  .said { margin: 8px 0; padding: 14px 16px; font-family: Fraunces, Georgia, serif; font-size: 26px; line-height: 1.15; }
+  .said span, .kicker { display: block; font-family: Outfit, sans-serif; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
+  .wave { display: flex; align-items: flex-end; gap: 3px; height: 22px; margin-left: auto; }
+  .wave i { width: 4px; border-radius: 4px; background: var(--teal); display: block; }
+  .wave i:nth-child(1) { height: 8px; } .wave i:nth-child(2) { height: 16px; }
+  .wave i:nth-child(3) { height: 12px; } .wave i:nth-child(4) { height: 20px; }
+  .beats, .facts { list-style: none; padding: 8px; margin: 8px 0 12px; }
+  .beats li, .facts li { display: grid; grid-template-columns: 32px 1fr; gap: 10px; padding: 10px; }
+  .beats b, .facts b { width: 32px; height: 32px; border-radius: 50%; background: var(--soft); color: var(--teal); display: grid; place-items: center; }
+  .beats p, .facts p { margin: 2px 0 0; color: var(--muted); }
+  .tabs-demo { display: flex; gap: 6px; margin: 12px 0; }
+  .tabs-demo span { flex: 1; text-align: center; border-radius: 14px; padding: 10px 0; background: var(--card); border: 1px solid var(--line); font-weight: 700; color: var(--muted); }
+  .tabs-demo .on { background: var(--teal); color: #fff; border-color: transparent; }
+  .banner { width: 100%; text-align: left; border: 0; background: var(--soft); color: var(--teal); border-radius: 16px; padding: 12px 14px; font-weight: 700; cursor: pointer; margin-bottom: 10px; }
+  .search { display: flex; gap: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 4px 8px 4px 14px; margin: 10px 0; }
+  .search input { flex: 1; border: 0; background: transparent; min-height: 44px; outline: none; font-size: 16px; }
+  .search button { border: 0; background: transparent; color: var(--teal); font-weight: 700; cursor: pointer; }
+  .group { margin: 14px 0 6px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .app { width: 100%; display: flex; align-items: center; gap: 12px; text-align: left; border: 0; background: transparent; padding: 8px 0; cursor: pointer; }
+  .app .meta { flex: 1; min-width: 0; }
+  .app strong { font-size: 17px; }
+  .tick { width: 46px; height: 28px; border-radius: 99px; background: #E4D8C8; position: relative; flex: none; }
+  .tick::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .15s; }
+  .app.on .tick { background: var(--teal); }
+  .app.on .tick::after { transform: translateX(18px); }
+  .empty { color: var(--muted); }
+  .dock { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; display: flex; flex-direction: column; gap: 2px; padding: 28px 18px 18px; background: linear-gradient(transparent, var(--phone) 32%); }
+  .screen .btn { width: 100%; border: 0; background: var(--teal); color: #fff; min-height: 54px; border-radius: 16px; font-size: 17px; font-weight: 700; cursor: pointer; }
+  .screen .btn.ghost { background: transparent; color: var(--teal); box-shadow: inset 0 0 0 1.5px var(--teal); margin-top: 8px; }
+  .screen .btn:disabled { opacity: .45; cursor: default; }
+  .screen .texty { border: 0; background: transparent; color: var(--teal); font-weight: 700; min-height: 42px; cursor: pointer; }
+  .count, .docknote { text-align: center; color: var(--muted); font-size: 13px; margin: 0 0 4px; line-height: 1.35; }
+  .head { display: flex; justify-content: space-between; align-items: center; }
+  .brand { font-family: Fraunces, Georgia, serif; font-size: 22px; }
+  .pill { background: var(--ink); color: #fff; border-radius: 999px; padding: 6px 10px; font-size: 12px; font-weight: 700; }
+  .status { font-family: Fraunces, Georgia, serif; font-size: 40px; line-height: 1; margin: 14px 0 6px; }
+  .card { padding: 14px 16px; margin: 10px 0; }
+  .card p { margin: 4px 0 0; color: var(--muted); }
+  .scrim { position: absolute; inset: 0; z-index: 30; background: rgba(28, 23, 20, .45); display: flex; align-items: flex-end; }
+  .sheet { width: 100%; background: var(--card); color: var(--ink); border-radius: 28px 28px 36px 36px; padding: 22px 18px 24px; }
+  .sheet h3 { font-family: Fraunces, Georgia, serif; font-size: 30px; line-height: 1; font-weight: 560; margin: 0 0 8px; }
+  .sheet p, .sheet li { line-height: 1.4; }
+  .sheet ul { margin: 8px 0 12px; padding-left: 18px; }
+  aside ul { margin: 0 0 18px; padding-left: 18px; line-height: 1.45; }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  @media (max-width: 1100px) {
+    .stage { grid-template-columns: 1fr; }
+    .rail, .device { position: relative; top: 0; }
+    .device { margin: 0 auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+<link rel="stylesheet" href="onboarding.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <p class="eyebrow">Onboarding A · maqueta navegable</p>
+    <h1>Recorrido</h1>
+    <p class="lede">Una idea por pantalla, en el mismo papel y el verde de la app. Primero la bienvenida y cómo suena un aviso. Después el permiso, con la divulgación antes del ajuste de Android. Al final se marcan las apps y se entra en Inicio.</p>
+  </div>
+  <nav class="siblings">
+    <a href="index.html">Interfaces</a>
+    <a href="onboarding.html">Onboarding</a>
+    <a href="onboarding-recorrido.html" aria-current="page">Recorrido</a>
+    <a href="onboarding-tareas.html">Tareas</a>
+    <a href="onboarding-voz.html">Voz</a>
+  </nav>
+</header>
+<div class="stage">
+  <nav class="rail" id="rail" aria-label="Pasos"></nav>
+  <div class="device"><div class="screen" id="screen"></div></div>
+  <aside>
+    <p class="eyebrow">Qué propone</p>
+    <ul>
+      <li>El permiso no aparece en la primera pantalla. Antes se oye un ejemplo y se ve el mapa: Inicio, Apps, Lectura.</li>
+      <li>La divulgación ocupa su propio paso y dice las cuatro cosas que ya dice la app. El botón abre el ajuste, no «acepta» dentro de TeLoLeo.</li>
+      <li>Android se reconoce por el fondo claro y el diálogo del sistema, más amplio de lo que TeLoLeo hace.</li>
+      <li>Si se vuelve sin activar, se puede seguir a marcar apps. Quedan guardadas y en silencio.</li>
+      <li>El cupo de 3 se dice antes de elegir, y otra vez si se toca una cuarta. Esa no se añade.</li>
+      <li>El recorrido termina en un Inicio ya leyendo, no en un «bienvenido» vacío.</li>
+    </ul>
+    <p class="fine">Maqueta. No cambia la app. US$ no aparece: Pro solo se nombra si se pasa de 3 apps.</p>
+  </aside>
+</div>
+<script src="onboarding.js"></script>
+<script>
+(function () {
+  "use strict";
+  var O = window.Onboarding;
+  var RAIL = [
+    { group: "Recorrido", id: "hola", label: "Bienvenida" },
+    { group: "Recorrido", id: "flujo", label: "Así funciona" },
+    { group: "Permiso", id: "permiso", label: "Divulgación" },
+    { group: "Permiso", id: "sistema", label: "Ajuste de Android" },
+    { group: "Permiso", id: "activo", label: "Permiso concedido" },
+    { group: "Permiso", id: "sin-permiso", label: "Sin activar" },
+    { group: "Apps", id: "apps", label: "Elegir apps" },
+    { group: "Apps", id: "limite", label: "Límite de 3" },
+    { group: "Cierre", id: "listo", label: "Listo" },
+    { group: "Cierre", id: "inicio", label: "Ya en la app" }
+  ];
+  var PRESETS = {
+    hola: { step: "hola" },
+    flujo: { step: "flujo" },
+    permiso: { step: "permiso" },
+    sistema: { step: "sistema" },
+    activo: { step: "activo", listener: true },
+    "sin-permiso": { step: "sin-permiso" },
+    apps: { step: "apps", listener: true },
+    limite: { step: "apps", listener: true, selected: ["wa", "tg", "gm"], limit: true, blocked: "Signal" },
+    listo: { step: "listo", listener: true, selected: ["wa", "tg", "gm"] },
+    inicio: { step: "inicio", listener: true, selected: ["wa", "tg", "gm"] }
+  };
+  var state = blank();
+
+  function blank() {
+    return { step: "hola", listener: false, selected: [], query: "", dialog: false, limit: false, pro: false, blocked: "", hint: "", rail: "hola" };
+  }
+  function carry(over) {
+    return Object.assign({ selected: state.selected.slice(), listener: state.listener, query: "" }, over || {});
+  }
+  function go(id, extra, mode) {
+    if (!PRESETS[id]) return;
+    state = Object.assign(blank(), PRESETS[id], extra || {});
+    state.selected = (state.selected || []).slice();
+    state.rail = id;
+    var url = "#" + id;
+    if (location.hash !== url) {
+      if (mode === "replace") history.replaceState({ id: id }, "", url);
+      else history.pushState({ id: id }, "", url);
+    }
+    render();
+  }
+  function toggle(id) {
+    var at = state.selected.indexOf(id);
+    if (at >= 0) {
+      state.selected.splice(at, 1);
+      state.limit = false;
+    } else if (state.selected.length >= 3) {
+      state.blocked = O.byId(id).name;
+      state.limit = true;
+      state.pro = false;
+    } else {
+      state.selected.push(id);
+      state.limit = false;
+    }
+    render();
+  }
+  function backTo() {
+    if (state.step === "flujo") return "hola";
+    if (state.step === "permiso") return "flujo";
+    if (state.step === "activo" || state.step === "sin-permiso") return "permiso";
+    if (state.step === "apps") return state.listener ? "activo" : "sin-permiso";
+    if (state.step === "listo") return "apps";
+    if (state.step === "inicio") return "listo";
+    return "";
+  }
+  function progress(n) {
+    return '<p class="eyebrow">Paso ' + n + " de 4</p>" + '<div class="bar" aria-hidden="true"><i style="width:' + (n * 25) + '%"></i></div>';
+  }
+  function backBtn() {
+    return state.step === "hola" || state.step === "sistema" ? "" : '<button type="button" class="back" data-act="back">Atrás</button>';
+  }
+  function dock(act, label, altAct, altLabel, disabled) {
+    return '<div class="dock"><button type="button" class="btn" data-act="' + act + '"' + (disabled ? " disabled" : "") + ">" + label + "</button>" +
+      (altAct ? '<button type="button" class="texty" data-act="' + altAct + '">' + altLabel + "</button>" : "") + "</div>";
+  }
+  function frame(body, foot) {
+    return '<div class="statusbar"><span>9:41</span><span>5G</span></div><div class="viewport' + (foot ? " hasdock" : "") + '">' + body + "</div>" + (foot || "");
+  }
+  function banner() {
+    if (state.listener) return "";
+    return '<button type="button" class="banner" data-act="to-permiso">Aún no te puedo leer. Activar el permiso.</button>';
+  }
+  function appsBlock() {
+    return banner() +
+      "<h2>¿Qué te leo?</h2>" +
+      '<p class="sub">Por defecto, silencio. La versión gratis lee 3 apps, sin límite de lecturas.</p>' +
+      '<div class="search"><input id="q" type="search" placeholder="Buscar app" value="' + O.esc(state.query) + '" autocomplete="off" aria-label="Buscar app">' +
+      (state.query ? '<button type="button" data-act="clear">Borrar</button>' : "") + "</div>" +
+      '<div id="applist">' + O.rows(state.selected, state.query) + "</div>";
+  }
+  function doneCopy() {
+    var first = state.selected[0];
+    var line = first ? O.phrase(first) : null;
+    var names = O.listNames(state.selected);
+    return "<h2>Listo.</h2>" +
+      (names ? "<p class=\"sub\">Te leo " + O.esc(names) + ".</p>" : "<p class=\"sub\">No marcaste ninguna. Seguirá en silencio.</p>") +
+      (line ? '<div class="said"><span>Así sonaría</span>' + O.esc(line.spoken) + "</div>" +
+        (line.hidden ? '<p class="fine">El código no se dice. Se oye «oculto». Viene activado.</p>' : '<p class="fine">Un código como 482913 se dice «oculto». Viene activado.</p>') : "") +
+      (state.listener ? "" : '<p class="fine">Falta el permiso: hasta activarlo, no hay lectura.</p>') +
+      '<p class="fine">Si el teléfono duerme las apps, la lectura se corta. En Inicio está la guía según la marca.</p>';
+  }
+  function body() {
+    var back = backBtn();
+    if (state.step === "hola") {
+      var line = O.phrase("wa");
+      return progress(1) + "<h2>Hola.</h2>" +
+        '<p class="sub">Leo en voz alta los avisos de las apps que tú elijas. Lo demás se queda en silencio.</p>' +
+        '<div class="preview"><i class="av" style="background:#128C7E">W</i><div><strong>' + O.esc(line.who) + "</strong><p>" + O.esc(line.text) + "</p></div>" +
+        '<span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>' +
+        '<div class="said"><span>Así sonaría</span>' + O.esc(line.spoken) + "</div>" +
+        '<p class="fine">El texto no sale del teléfono.</p>';
+    }
+    if (state.step === "flujo") {
+      return back + progress(2) + "<h2>Así te leo.</h2>" +
+        '<ol class="beats">' +
+        "<li><b>1</b><div><strong>Llega un aviso</strong><p>Solo si marcaste esa app. El resto ni se mira.</p></div></li>" +
+        "<li><b>2</b><div><strong>Lo digo en voz alta</strong><p>Con la voz del teléfono: aplicación, quién escribe y el texto.</p></div></li>" +
+        "<li><b>3</b><div><strong>Puedes callarme</strong><p>Dos minutos desde Inicio, o quitas la app de la lista.</p></div></li>" +
+        "</ol>" +
+        '<div class="tabs-demo" aria-hidden="true"><span class="on">Inicio</span><span>Apps</span><span>Lectura</span></div>' +
+        '<p class="fine">Inicio dice si te estoy leyendo. Apps es lo que vas a marcar. Lectura —horario, auriculares, filtros— es de Pro.</p>';
+    }
+    if (state.step === "permiso") {
+      return back + progress(3) + "<h2>Hace falta un permiso.</h2>" +
+        '<p class="sub">TeLoLeo leerá notificaciones en voz alta.</p>' +
+        '<ul class="facts">' +
+        "<li><b>1</b><div><strong>Qué se lee</strong><p>El título y el texto de las apps que marques, con la voz del teléfono.</p></div></li>" +
+        "<li><b>2</b><div><strong>Dónde</strong><p>En este teléfono. El texto no se envía, no se guarda y no se vende.</p></div></li>" +
+        "<li><b>3</b><div><strong>Cómo se apaga</strong><p>Quitando apps, o desactivando TeLoLeo en el acceso a notificaciones.</p></div></li>" +
+        "<li><b>4</b><div><strong>Códigos</strong><p>Un código de un solo uso se dice «oculto», salvo que lo cambies.</p></div></li>" +
+        "</ul>";
+    }
+    if (state.step === "activo") {
+      return back + progress(3) + "<h2>Ya puedo leer.</h2>" +
+        '<p class="sub">Por defecto, silencio. Marca las apps que quieres oír.</p>';
+    }
+    if (state.step === "sin-permiso") {
+      return back + progress(3) + "<h2>Sigues en silencio.</h2>" +
+        '<p class="sub">Sin el acceso a las notificaciones no hay nada que leer. Puedes activarlo ahora. Si sigues, las apps que marques quedan guardadas y no se oyen hasta activarlo.</p>';
+    }
+    if (state.step === "apps") return back + progress(4) + appsBlock();
+    if (state.step === "listo") return back + doneCopy();
+    var names = O.listNames(state.selected);
+    return '<div class="head"><span class="brand">TeLoLeo</span><span class="pill">Gratis · 3 apps</span></div>' +
+      '<p class="status">' + (state.listener ? "Te lo leo" : "En silencio") + "</p>" +
+      '<p class="sub">En voz alta, solo de las apps que elijas.</p>' +
+      '<div class="card"><strong>' + (state.listener ? "La lectura está activa." : "Falta el permiso.") + "</strong><p>" +
+      (state.listener ? "Para apagarla, desactiva TeLoLeo en el acceso a notificaciones." : "Sin el acceso a las notificaciones no hay lectura.") + "</p></div>" +
+      '<div class="card"><strong>Se leen</strong><p>' + (names ? O.esc(names) : "Ninguna. Por defecto, silencio.") + "</p></div>" +
+      '<div class="card"><strong>Ocultar códigos de un solo uso</strong><p>Un código como 482913 se dice «oculto». Viene activado.</p></div>' +
+      '<p class="fine">El onboarding no vuelve a salir. La guía de batería está en Inicio.</p>';
+  }
+  function foot() {
+    if (state.step === "hola") return dock("next", "Empezar");
+    if (state.step === "flujo") return dock("next", "Siguiente");
+    if (state.step === "permiso") {
+      return '<div class="dock"><p class="docknote">El siguiente paso es el ajuste de Android, no una pantalla de TeLoLeo.</p>' +
+        '<button type="button" class="btn" data-act="open-system">Entendido, abrir ajustes</button>' +
+        '<button type="button" class="texty" data-act="skip-permiso">Ahora no</button></div>';
+    }
+    if (state.step === "activo") return dock("to-apps", "Elegir apps");
+    if (state.step === "sin-permiso") return dock("to-permiso", "Activar lectura", "to-apps-silent", "Marcar apps igual");
+    if (state.step === "apps") {
+      var ready = state.selected.length > 0;
+      return '<div class="dock"><p class="count" id="count">Marcadas: ' + state.selected.length + ". Sin Pro se leen 3.</p>" +
+        '<button type="button" class="btn" data-act="finish"' + (ready ? "" : " disabled") + ">" +
+        (ready ? "Listo" : "Marca al menos una") + "</button></div>";
+    }
+    if (state.step === "listo") return dock("enter", "Entrar");
+    return "";
+  }
+  function view() {
+    if (state.step === "sistema") return O.system({ dialog: state.dialog, hint: state.hint });
+    return frame(body(), foot()) + (state.limit ? O.limit(state.blocked, state.pro) : "");
+  }
+  function paintRail() {
+    var html = "";
+    var last = "";
+    RAIL.forEach(function (item) {
+      if (item.group !== last) {
+        html += "<h3>" + item.group + "</h3>";
+        last = item.group;
+      }
+      var on = item.id === state.rail;
+      html += '<button type="button" data-rail="' + item.id + '"' + (on ? ' class="on" aria-current="true"' : "") + ">" + item.label + "</button>";
+    });
+    document.getElementById("rail").innerHTML = html;
+  }
+  var prevStep = "";
+  function render() {
+    var keep = prevStep === state.step;
+    var sc = document.querySelector(".viewport");
+    var top = keep && sc ? sc.scrollTop : 0;
+    document.getElementById("screen").innerHTML = view();
+    prevStep = state.step;
+    var next = document.querySelector(".viewport");
+    if (keep && next) next.scrollTop = top;
+    paintRail();
+  }
+  document.getElementById("rail").addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-rail]");
+    if (btn) go(btn.getAttribute("data-rail"));
+  });
+  document.getElementById("screen").addEventListener("input", function (e) {
+    if (e.target.id !== "q") return;
+    state.query = e.target.value;
+    var list = document.getElementById("applist");
+    if (list) list.innerHTML = O.rows(state.selected, state.query);
+  });
+  document.getElementById("screen").addEventListener("click", function (e) {
+    var el = e.target.closest("[data-act]");
+    if (!el) return;
+    var act = el.getAttribute("data-act");
+    if (act === "app") { toggle(el.getAttribute("data-id")); return; }
+    if (act === "clear") { state.query = ""; render(); return; }
+    if (act === "limit-close") { state.limit = false; state.pro = false; render(); return; }
+    if (act === "limit-pro") { state.pro = true; render(); return; }
+    if (act === "switch") { state.dialog = true; state.hint = ""; render(); return; }
+    if (act === "deny") { state.dialog = false; state.hint = "No se concedió. Sin este permiso, TeLoLeo no lee nada."; render(); return; }
+    if (act === "allow") { go("activo", carry({ listener: true }), "replace"); return; }
+    if (act === "system-back") { go("sin-permiso", carry({ listener: false })); return; }
+    if (act === "next" && state.step === "hola") { go("flujo"); return; }
+    if (act === "next" && state.step === "flujo") { go("permiso"); return; }
+    if (act === "open-system") { go("sistema", carry()); return; }
+    if (act === "skip-permiso" || act === "to-apps-silent") { go("apps", carry({ listener: false })); return; }
+    if (act === "to-permiso") { go("permiso", carry()); return; }
+    if (act === "to-apps") { go("apps", carry({ listener: true })); return; }
+    if (act === "finish") { if (state.selected.length) go("listo", carry()); return; }
+    if (act === "enter") { go("inicio", carry()); return; }
+    if (act === "back") {
+      var id = backTo();
+      if (id) go(id, carry());
+    }
+  });
+  window.addEventListener("popstate", function () {
+    var id = (location.hash || "#hola").slice(1);
+    if (PRESETS[id]) go(id, null, "replace");
+  });
+  var start = (location.hash || "#hola").slice(1);
+  go(PRESETS[start] ? start : "hola", null, "replace");
+})();
+</script>
+</body>
+</html>

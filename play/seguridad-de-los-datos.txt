@@ -1,0 +1,16 @@
+Respuestas para Seguridad de los datos
+
+¿La app recopila o comparte alguno de los tipos de datos de usuario obligatorios?
+No.
+
+Datos recopilados: ninguno.
+Datos compartidos: ninguno.
+Anuncios: no. No hay identificador publicitario.
+Cuenta: no. No se puede crear una cuenta de TeLoLeo.
+
+El texto de una notificación se usa en la memoria del teléfono el tiempo de decirlo y se descarta. No se envía, no se guarda como historial y no se vende. La lista de apps y los ajustes se quedan en el teléfono. Borrar los datos de TeLoLeo, o desinstalarla, vacía esa lista.
+
+Cifrado en tránsito: no aplica, porque no salen datos del teléfono.
+Solicitud de eliminación: no hay cuenta ni datos recopilados. La persona borra la lista al borrar los datos de la app o al desinstalarla.
+
+El pago de Pro lo cobra Google Play. TeLoLeo no recibe el medio de pago.

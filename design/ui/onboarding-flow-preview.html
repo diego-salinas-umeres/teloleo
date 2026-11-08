@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TeLoLeo — Vistazo del paso 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,640&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --studio: #E7DCCB;
+    --ink: #1C1714;
+    --muted: #6F645A;
+    --phone: #F6F0E6;
+    --card: #FFFBF5;
+    --line: #E5D8C7;
+    --teal: #0C6B62;
+    --soft: #DDF1EC;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--studio); color: var(--ink); font-family: Outfit, "Segoe UI", sans-serif; }
+  button { font: inherit; color: inherit; }
+  .stage { display: flex; gap: 36px; align-items: flex-start; padding: 28px; }
+  .note { max-width: 280px; padding-top: 12px; }
+  .note p { margin: 0 0 12px; line-height: 1.45; }
+  .note .eyebrow { margin: 0 0 8px; letter-spacing: .16em; text-transform: uppercase; font-size: 12px; font-weight: 700; color: var(--muted); }
+  .device { width: 390px; height: 800px; background: #161311; border-radius: 46px; padding: 10px; box-shadow: 0 30px 70px rgba(60, 40, 12, .22); flex: none; }
+  .screen { height: 100%; background: var(--phone); border-radius: 36px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+  .statusbar { display: flex; justify-content: space-between; padding: 12px 22px 0; font-size: 12px; font-weight: 700; }
+  .viewport { flex: 1; min-height: 0; overflow: auto; padding: 4px 18px 12px; }
+  .back { border: 0; background: transparent; color: var(--teal); font-weight: 700; padding: 8px 0; cursor: pointer; }
+  .step { margin: 4px 0 6px; font-size: 13px; font-weight: 700; color: var(--muted); }
+  .bar { height: 4px; background: var(--line); border-radius: 99px; margin: 0 0 14px; }
+  .bar i { display: block; width: 50%; height: 100%; background: var(--teal); border-radius: 99px; }
+  h2 { font-family: Fraunces, Georgia, serif; font-size: 44px; line-height: .95; font-weight: 560; letter-spacing: -.03em; margin: 0 0 12px; }
+  .beats { list-style: none; padding: 8px; margin: 0 0 12px; background: var(--card); border: 1px solid var(--line); border-radius: 22px; }
+  .beats li { display: grid; grid-template-columns: 32px 1fr; gap: 10px; padding: 6px 8px; }
+  .beats b { width: 32px; height: 32px; border-radius: 50%; background: var(--soft); color: var(--teal); display: grid; place-items: center; }
+  .beats p { margin: 2px 0 0; color: var(--muted); }
+  .peek { display: grid; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 12px 14px; }
+  .peek .face { grid-area: 1 / 1; }
+  .peek .face:not(.on) { visibility: hidden; }
+  .peek h3 { font-family: Fraunces, Georgia, serif; font-size: 34px; line-height: 1; font-weight: 560; margin: 0 0 6px; }
+  .peek .quiet { margin: 0; color: var(--muted); line-height: 1.35; }
+  .row { display: flex; align-items: center; gap: 12px; min-height: 44px; }
+  .row + .row { border-top: 1px solid var(--line); }
+  .av { width: 40px; height: 40px; border-radius: 14px; background: var(--soft); color: var(--teal); display: grid; place-items: center; font-weight: 700; flex: none; }
+  .row strong { flex: 1; font-size: 17px; }
+  .tick { width: 46px; height: 28px; border-radius: 99px; background: #E4D8C8; position: relative; flex: none; }
+  .tick::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; }
+  .tick.on { background: var(--teal); }
+  .tick.on::after { transform: translateX(18px); }
+  .pro { color: var(--muted); font-size: 13px; font-weight: 700; }
+  .tabs { display: flex; gap: 6px; margin: 10px 0 6px; }
+  .tabs button {
+    flex: 1;
+    min-height: 48px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--muted);
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .tabs button[aria-selected="true"] { background: var(--teal); color: #fff; border-color: transparent; }
+  .caption { margin: 0; color: var(--muted); line-height: 1.4; }
+  .dock {
+    flex: none;
+    padding: 8px 18px 18px;
+    background: var(--phone);
+  }
+  .dock button {
+    width: 100%; border: 0; background: var(--teal); color: #fff;
+    min-height: 54px; border-radius: 16px; font-size: 17px; font-weight: 700; cursor: pointer;
+  }
+  button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="device">
+      <div class="screen">
+        <div class="statusbar"><span>9:23</span><span>▾ LTE</span></div>
+        <div class="viewport">
+          <button class="back" type="button">Volver</button>
+          <p class="step">Paso 2 de 4</p>
+          <div class="bar"><i></i></div>
+          <h2>Así te leo.</h2>
+          <ol class="beats">
+            <li><b>1</b><div><strong>Llega un aviso</strong><p>Solo si marcaste esa app. El resto ni se mira.</p></div></li>
+            <li><b>2</b><div><strong>Lo digo en voz alta</strong><p>Con la voz del teléfono: aplicación, quién escribe y el texto.</p></div></li>
+            <li><b>3</b><div><strong>Puedes callarme</strong><p>Dos minutos desde Inicio, o quitas la app de la lista.</p></div></li>
+          </ol>
+          <div class="peek" id="peek">
+            <div class="face on" data-face="home">
+              <h3>Te lo leo</h3>
+              <p class="quiet">En voz alta, solo de las apps que elijas.</p>
+              <p class="quiet">La lectura está activa.</p>
+            </div>
+            <div class="face" data-face="apps">
+              <div class="row"><i class="av">W</i><strong>WhatsApp</strong><span class="tick on"></span></div>
+              <div class="row"><i class="av">T</i><strong>Telegram</strong><span class="tick"></span></div>
+              <div class="row"><i class="av">G</i><strong>Gmail</strong><span class="tick"></span></div>
+            </div>
+            <div class="face" data-face="reading">
+              <div class="row"><strong>Horario de silencio</strong><span class="pro">Pro</span></div>
+              <div class="row"><strong>Solo con auriculares</strong><span class="pro">Pro</span></div>
+              <div class="row"><strong>Filtro de palabras</strong><span class="pro">Pro</span></div>
+            </div>
+          </div>
+          <div class="tabs" role="tablist">
+            <button type="button" role="tab" id="tab-home" aria-controls="peek" aria-selected="true">Inicio</button>
+            <button type="button" role="tab" id="tab-apps" aria-controls="peek" aria-selected="false">Apps</button>
+            <button type="button" role="tab" id="tab-reading" aria-controls="peek" aria-selected="false">Lectura</button>
+          </div>
+          <p class="caption" id="caption"></p>
+        </div>
+        <div class="dock"><button type="button" id="next">Siguiente</button></div>
+      </div>
+    </div>
+    <aside class="note">
+      <p class="eyebrow">Propuesta</p>
+      <p>Las tres pestañas cambian el vistazo. No entran en la app.</p>
+      <p id="aside">Siguiente sigue el recorrido, hacia el permiso.</p>
+    </aside>
+  </div>
+  <script>
+    var lines = {
+      home: "Aquí ves si te estoy leyendo y puedes callarme.",
+      apps: "Aquí marcas las apps. En la versión gratis, tres.",
+      reading: "Horario, auriculares y filtros. Es de Pro."
+    };
+    function show(id) {
+      document.querySelectorAll(".peek .face").forEach(function (face) {
+        face.classList.toggle("on", face.getAttribute("data-face") === id);
+      });
+      document.getElementById("caption").textContent = lines[id];
+      ["home", "apps", "reading"].forEach(function (key) {
+        document.getElementById("tab-" + key).setAttribute("aria-selected", key === id ? "true" : "false");
+      });
+    }
+    document.getElementById("tab-home").onclick = function () { show("home"); };
+    document.getElementById("tab-apps").onclick = function () { show("apps"); };
+    document.getElementById("tab-reading").onclick = function () { show("reading"); };
+    document.getElementById("next").onclick = function () {
+      document.getElementById("aside").textContent = "Siguiente no cambia de pestaña. Sigue hacia el permiso.";
+    };
+    show("home");
+  </script>
+</body>
+</html>
