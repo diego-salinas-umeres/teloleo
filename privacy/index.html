@@ -4,36 +4,139 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Política de privacidad de TeLoLeo</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f0e6;
+      --ink: #1c1714;
+      --muted: #6f645a;
+      --green: #0c6b62;
+      --soft: #ddf1ec;
+      --card: #fffbf5;
+      --line: #e5d8c7;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+        --paper: #1c1714;
+        --ink: #f6f0e6;
+        --muted: #cdbfaf;
+        --green: #8ed4c8;
+        --soft: #123f3b;
+        --card: #322b26;
+        --line: #4e433a;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Segoe UI", sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.55;
+    }
+    main {
+      max-width: 40rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+    p { margin: 0.4rem 0 0; }
+    .mark {
+      margin: 0 0 1.5rem;
+      color: var(--green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    h1 {
+      margin: 0 0 1rem;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2.4rem;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .lead { font-size: 1.15rem; }
+    section {
+      margin-top: 1.25rem;
+      padding: 1rem 1.1rem 1.15rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+    }
+    h2 {
+      margin: 0 0 0.35rem;
+      font-size: 1rem;
+      font-weight: 650;
+    }
+    .note {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.35rem 0.7rem;
+      background: var(--soft);
+      color: var(--green);
+      border-radius: 999px;
+      font-size: 0.95rem;
+    }
+    footer {
+      margin-top: 1.5rem;
+      color: var(--muted);
+    }
+  </style>
 </head>
 <body>
-  <h1>Política de privacidad de TeLoLeo</h1>
-  <p>TeLoLeo lee en voz alta las notificaciones de las aplicaciones que tú eliges. El identificador de la aplicación es app.teloleo.</p>
+  <main>
+    <p class="mark">TeLoLeo</p>
+    <h1>Política de privacidad</h1>
+    <p class="lead">TeLoLeo lee en voz alta las notificaciones de las aplicaciones que tú eliges. El identificador de la aplicación es app.teloleo.</p>
 
-  <h2>Qué se lee</h2>
-  <p>El título y el texto que la otra aplicación pone en el aviso. Si esa aplicación oculta la vista previa, TeLoLeo solo puede decir su nombre.</p>
+    <section>
+      <h2>Qué se lee</h2>
+      <p>El título y el texto que la otra aplicación pone en el aviso. Si esa aplicación oculta la vista previa, TeLoLeo solo puede decir su nombre.</p>
+    </section>
 
-  <h2>Dónde se procesa</h2>
-  <p>El texto no sale del teléfono. Se convierte en voz con el motor del sistema. No se envía, no se guarda como historial y no se vende. No hay servidor ni anuncios.</p>
+    <section>
+      <h2>Dónde se procesa</h2>
+      <p>El texto no sale del teléfono. Se convierte en voz con el motor del sistema. No se envía, no se guarda como historial y no se vende. No hay servidor ni anuncios.</p>
+    </section>
 
-  <h2>Qué se guarda en el teléfono</h2>
-  <p>La lista de aplicaciones que marcaste, si compraste Pro y tus ajustes de lectura. No se copia a la nube. No hay cuenta de TeLoLeo.</p>
+    <section>
+      <h2>Qué se guarda en el teléfono</h2>
+      <p>La lista de aplicaciones que marcaste, si compraste Pro y tus ajustes de lectura. No se copia a la nube. No hay cuenta de TeLoLeo.</p>
+    </section>
 
-  <h2>Seguridad de los datos</h2>
-  <p>TeLoLeo no recopila ni comparte datos. En la ficha de Play se declara eso mismo. El texto del aviso se usa en memoria para decirlo y se descarta. No hay identificador publicitario.</p>
+    <section>
+      <h2>Seguridad de los datos</h2>
+      <p>TeLoLeo no recopila ni comparte datos. En la ficha de Play se declara eso mismo. El texto del aviso se usa en memoria para decirlo y se descarta. No hay identificador publicitario.</p>
+    </section>
 
-  <h2>Códigos</h2>
-  <p>Por defecto, los códigos de un solo uso se sustituyen por la palabra «oculto» al hablar. Se puede cambiar en Lectura.</p>
+    <section>
+      <h2>Códigos</h2>
+      <p>Por defecto, los códigos de un solo uso se sustituyen por la palabra «oculto» al hablar. Se puede cambiar en Lectura.</p>
+    </section>
 
-  <h2>Cómo se apaga</h2>
-  <p>Desactívala en Inicio: deja de leer hasta que vuelvas a activarla, y el permiso sigue concedido. También puedes quitar las aplicaciones de la lista, desactivar TeLoLeo en el acceso a las notificaciones del sistema, o desinstalar la aplicación. Borrar los datos deja la lista vacía.</p>
+    <section>
+      <h2>Cómo se apaga</h2>
+      <p>Desactívala en Inicio: deja de leer hasta que vuelvas a activarla, y el permiso sigue concedido. También puedes quitar las aplicaciones de la lista, desactivar TeLoLeo en el acceso a las notificaciones del sistema, o desinstalar la aplicación. Borrar los datos deja la lista vacía.</p>
+    </section>
 
-  <h2>Pro</h2>
-  <p>Pro es un pago único, el producto teloleo_pro. No es una suscripción. El cobro lo hace Google Play en el teléfono. TeLoLeo no recibe el medio de pago ni lo confirma en un servidor propio.</p>
+    <section>
+      <h2>Pro</h2>
+      <p>Pro es un pago único, el producto teloleo_pro. No es una suscripción. El cobro lo hace Google Play en el teléfono. TeLoLeo no recibe el medio de pago ni lo confirma en un servidor propio.</p>
+    </section>
 
-  <h2>Menores</h2>
-  <p>TeLoLeo no está dirigida a menores.</p>
+    <section>
+      <h2>Menores</h2>
+      <p>TeLoLeo no está dirigida a menores.</p>
+    </section>
 
-  <h2>Contacto</h2>
-  <p>El correo de contacto es teloleoapp@gmail.com.</p>
+    <p class="note">El texto no sale del teléfono.</p>
+
+    <footer>
+      <h2>Contacto</h2>
+      <p>El correo de contacto es teloleoapp@gmail.com.</p>
+    </footer>
+  </main>
 </body>
 </html>
